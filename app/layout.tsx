@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${pretendard.variable} font-pretendard bg-blue-50`}>
+      <body className={`${pretendard.variable} font-pretendard bg-BACKGROUND`}>
         {children}
       </body>
     </html>
