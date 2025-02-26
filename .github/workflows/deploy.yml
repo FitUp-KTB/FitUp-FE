@@ -21,7 +21,6 @@ jobs:
         run: |
           npm ci --legacy-peer-deps
           npm run build
-          ls -al .next  # 빌드 결과 확인
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
