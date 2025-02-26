@@ -1,4 +1,5 @@
 import { Calendar } from "@/components/ui/calendar";
+import StatRadarChart from "@/components/home/StatRadarChart";
 
 export default function HomePage() {
 
@@ -58,7 +59,7 @@ export default function HomePage() {
   return (
     <div>
       <Calendar coloredDates={coloredDates} />
-
+      <StatRadarChart/>
     </div>
   )
 }
