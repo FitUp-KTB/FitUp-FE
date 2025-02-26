@@ -1,7 +1,9 @@
+import StatRadarChart from "@/components/home/StatRadarChart";
+
 export default function HomePage() {
   return (
     <div>
-      홈 화면!
+      <StatRadarChart/>
     </div>
   );
 }
