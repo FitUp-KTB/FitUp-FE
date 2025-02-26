@@ -49,10 +49,8 @@ const options = {
 export default function StatRadarChart() {
   return (
     <div className="bg-WHITE w-72 h-72 rounded-3xl shadow p-4 flex flex-col">
-      {/* ✅ 제목 (자동 높이) */}
       <h2 className="text-xl font-bold text-gray-800">스탯 차트</h2>
 
-      {/* ✅ 제목 높이를 제외한 나머지 공간을 차트가 차지 */}
       <div className="flex-1 relative ">
         <Radar data={data} options={options} />
       </div>
