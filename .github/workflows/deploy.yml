@@ -24,7 +24,7 @@ jobs:
           tar -czf frontend.tar.gz .next package.json package-lock.json docker-compose.yml
 
       - name: Upload Build Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: frontend-build
           path: frontend.tar.gz
@@ -41,7 +41,7 @@ jobs:
       - ${{ matrix.runner_label }}
     steps:
       - name: Download Build Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: frontend-build
 
@@ -49,6 +49,10 @@ jobs:
         run: |
           docker-compose down || true
           rm -rf .next package.json package-lock.json frontend.tar.gz
+
+      - name: Remove Unused Docker Resources (Prune)
+        run: |
+          docker system prune -af
 
       - name: Extract Build and Deploy
         run: |
