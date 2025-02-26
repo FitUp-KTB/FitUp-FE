@@ -1,4 +1,4 @@
-import StatRadarChart from "@/components/home/StatRadarChart";
+import StatRadarChart from "@/components/home/statRadarChart";
 
 export default function HomePage() {
   return (
