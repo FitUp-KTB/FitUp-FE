@@ -1,5 +1,6 @@
 import NavItem from "@/components/common/navItem";
 import {Bot, House, Settings2} from "lucide-react";
+import Image from "next/image";
 
 export default function MainLayout({
   children,
@@ -9,8 +10,9 @@ export default function MainLayout({
   return (
     <div className="flex flex-col min-h-screen">
       {/* 헤더 */}
-      <header className="bg-WHITE text-BLACK shadow w-full h-16">
-        <h1 className="text-2xl p-4">로고</h1>
+      <header className="bg-WHITE text-BLACK shadow w-full h-16 flex pl-5 pr-5 justify-between">
+        <Image src="/images/logo.svg" alt="logo" width={100} height={66}/>
+        <Image src="/images/default-profile.svg" alt="profile" width={40} height={40}/>
       </header>
 
       <div className="flex flex-1">
