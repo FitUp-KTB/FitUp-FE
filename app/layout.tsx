@@ -18,8 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${pretendard.variable} font-pretendard`}>
+    <html lang="ko">
+      <body className={`${pretendard.variable} font-pretendard bg-blue-50`}>
         {children}
       </body>
     </html>
