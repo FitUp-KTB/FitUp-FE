@@ -20,7 +20,7 @@ jobs:
       - name: Install Dependencies and Build Next.js Application
         run: |
           npm ci --legacy-peer-deps
-          NEXT_DISABLE_ESLINT=1 npm run build
+          npm run build
           ls -al .next  # 빌드 결과 확인
 
       - name: Log in to Docker Hub
