@@ -1,4 +1,3 @@
-import Link from "next/link";
 import NavItem from "@/components/common/navItem";
 import {Bot, House, Settings2} from "lucide-react";
 
@@ -13,7 +12,7 @@ export default function MainLayout({
       <header className="bg-WHITE text-BLACK shadow w-full h-16">
         <h1 className="text-2xl p-4">로고</h1>
       </header>
-      
+
       <div className="flex flex-1">
         {/* 컨텐츠 영역 */}
         <main className="flex-1 p-6 bg-BACKGROUND">

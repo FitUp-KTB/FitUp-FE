@@ -50,7 +50,7 @@ export default function MyStatusPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center ">
+    <div className="flex items-center justify-center h-full pb-10">
       <div className="bg-white rounded-[30px] shadow p-8 w-[600px]">
         {/* 상단 문구 */}
         <h2 className="text-2xl font-semibold mb-6">
