@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
-export default function MultiStepForm() {
+export default function MyStatusPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
 
@@ -50,7 +50,7 @@ export default function MultiStepForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#AEC3CF]">
+    <div className="min-h-screen flex items-center justify-center ">
       <div className="bg-white rounded-[30px] shadow p-8 w-[600px]">
         {/* 상단 문구 */}
         <h2 className="text-2xl font-semibold mb-6">
