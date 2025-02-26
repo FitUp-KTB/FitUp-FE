@@ -40,43 +40,43 @@ export default function StatChangesChart() {
         {
           label: '스탯 A',
           data: [65, 59, 80, 81, 56, 55, 42],
-          borderColor: 'rgb(255, 99, 132,0.8)',
-          backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          borderColor: '#CBAACB',
+          backgroundColor: '#CBAACB80',
           tension: 0.1
         },
         {
           label: '스탯 B',
           data: [28, 48, 40, 19, 86, 27, 36],
-          borderColor: 'rgb(54, 162, 235, 0.8)',
-          backgroundColor: 'rgba(54, 162, 235, 0.5)',
+          borderColor: '#887CFF80',
+          backgroundColor: '#887CFF50',
           tension: 0.1
         },
         {
           label: '스탯 C',
           data: [33, 25, 35, 51, 54, 76, 45],
-          borderColor: 'rgb(75, 192, 192,0.8)',
-          backgroundColor: 'rgba(75, 192, 192, 0.5)',
+          borderColor: '#ABDEE6',
+          backgroundColor: '#ABDEE680',
           tension: 0.1
         },
         {
           label: '스탯 D',
           data: [12, 45, 78, 34, 56, 67, 56],
-          borderColor: 'rgb(153, 102, 255, 0.8)',
-          backgroundColor: 'rgba(153, 102, 255, 0.5)',
+          borderColor: '#53ACFF80',
+          backgroundColor: '#53ACFF50',
           tension: 0.1
         },
         {
           label: '스탯 E',
           data: [43, 31, 52, 48, 62, 38, 42],
-          borderColor: 'rgb(255, 159, 64,0.8)',
-          backgroundColor: 'rgba(255, 159, 64, 0.5)',
+          borderColor: '#55647680',
+          backgroundColor: '##55647650',
           tension: 0.1
         },
         {
           label: '스탯 F',
           data: [50, 39, 45, 70, 35, 60, 53],
-          borderColor: 'rgb(0, 204, 102,0.8)',
-          backgroundColor: 'rgba(0, 204, 102, 0.5)',
+          borderColor: '#F3B0C3',
+          backgroundColor: '#d498e850',
           tension: 0.1
         }
       ]
