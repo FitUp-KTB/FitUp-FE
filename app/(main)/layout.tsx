@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 export default function MainLayout({
-                                     children,
-                                   }: Readonly<{
+  children,
+}: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
