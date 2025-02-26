@@ -28,6 +28,7 @@ jobs:
         with:
           name: frontend-build
           path: frontend.tar.gz
+          retention-days: 1
 
   deploy:
     needs: build-and-archive
@@ -44,6 +45,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: frontend-build
+          path: /tmp/frontend
+
+      - name: Verify Artifact Download
+        run: |
+          ls -al /tmp/frontend
 
       - name: Clean Up Old Files and Containers
         run: |
@@ -56,5 +62,9 @@ jobs:
 
       - name: Extract Build and Deploy
         run: |
-          tar -xzf frontend.tar.gz
+          tar -xzf /tmp/frontend/frontend.tar.gz -C /tmp/frontend
+          mv /tmp/frontend/.next .
+          mv /tmp/frontend/package.json .
+          mv /tmp/frontend/package-lock.json .
+          mv /tmp/frontend/docker-compose.yml .
           docker-compose up -d --build
