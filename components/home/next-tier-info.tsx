@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
 import CircularGauge from "../ui/circular-gauge"
 import Dumbbell from "@/assets/images/dumbbell.png"
 
@@ -31,9 +31,8 @@ const NextTierInfo = () => {
           <span className="text-sm mt-1 text-gray-400">25 / 30 EXP</span>
         </CircularGauge>
       </CardContent>
-      <CardFooter className="flex justify-center">
-      </CardFooter>
-
+      {/* <CardFooter className="flex justify-center">
+      </CardFooter> */}
     </Card>
   )
 }
