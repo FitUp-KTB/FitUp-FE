@@ -1,0 +1,70 @@
+name: CI/CD Pipeline for Frontend
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-archive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies and Build Next.js Application
+        run: |
+          npm ci --legacy-peer-deps
+          npm run build
+          tar -czf frontend.tar.gz .next package.json package-lock.json docker-compose.yml
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-build
+          path: frontend.tar.gz
+          retention-days: 1
+
+  deploy:
+    needs: build-and-archive
+    strategy:
+      matrix:
+        runner_label:
+          - server1
+          - server2
+    runs-on:
+      - self-hosted
+      - ${{ matrix.runner_label }}
+    steps:
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-build
+          path: /tmp/frontend
+
+      - name: Verify Artifact Download
+        run: |
+          ls -al /tmp/frontend
+
+      - name: Clean Up Old Files and Containers
+        run: |
+          docker-compose down || true
+          rm -rf .next package.json package-lock.json frontend.tar.gz
+
+      - name: Remove Unused Docker Resources (Prune)
+        run: |
+          docker system prune -af
+
+      - name: Extract Build and Deploy
+        run: |
+          tar -xzf /tmp/frontend/frontend.tar.gz -C /tmp/frontend
+          mv /tmp/frontend/.next .
+          mv /tmp/frontend/package.json .
+          mv /tmp/frontend/package-lock.json .
+          mv /tmp/frontend/docker-compose.yml .
+          docker-compose up -d --build

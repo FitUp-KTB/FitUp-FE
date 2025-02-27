@@ -1,8 +1,6 @@
 import {Button} from "@/components/ui/button";
 import Quest from "@/model/quest";
 import Image from "next/image";
-import {Color} from "@kurkle/color";
-import {COLORS} from "@/styles/colors";
 
 interface QuestItemProps {
   quest: Quest;
