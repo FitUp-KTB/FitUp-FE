@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.1.4",
-    "@radix-ui/react-progress": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.2",
     "chart.js": "^4.4.8",
     "chartjs-plugin-datalabels": "^2.2.0",
