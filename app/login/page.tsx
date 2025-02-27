@@ -23,7 +23,8 @@ export default function LoginPage() {
       const response = await postLogin(reqBody)
 
       if (!response.success) {
-        throw new Error(response.message)
+        alert("로그인 실패!")
+        return;
       }
 
       // 쿠키에 token 저장
