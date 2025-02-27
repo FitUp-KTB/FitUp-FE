@@ -1,7 +1,5 @@
 import Header from "@/components/common/header";
-import NavItem from "@/components/common/navItem";
-import { Bot, House, Settings2 } from "lucide-react";
-import Image from "next/image";
+import Navigation from "@/components/common/Navigation";
 
 export default function MainLayout({
   children,
@@ -20,11 +18,7 @@ export default function MainLayout({
         </main>
 
         {/* Floating Bottom Navigation */}
-        <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black shadow-lg rounded-full px-6 py-2 flex gap-6">
-          <NavItem href="/home" icon={<House size={24} />} label="홈" />
-          <NavItem href="/prompt" icon={<Bot size={24} />} label="프롬프트" />
-          <NavItem href="/my-status" icon={<Settings2 size={24} />} label="수행능력" />
-        </nav>
+        <Navigation />
       </div>
     </div>
   );
