@@ -20,7 +20,6 @@ export default function LoginPage() {
         password: password,
       }
       const response = await postLogin(reqBody)
-      console.log(response);
 
       if (!response.success) {
         throw new Error(response.message)
