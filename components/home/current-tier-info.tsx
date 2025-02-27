@@ -1,7 +1,7 @@
 "use client"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
-import { Bronze, Gold, Platinum, Silver, Diamond, Strength, Speed } from "@/assets/images";
+import { Bronze, Gold, Platinum, Silver, Diamond } from "@/assets/images";
 import ShinyTier from "../common/ShinyTier";
 import { getQuestTier } from "@/services/api/getQuestTier";
 import { useQuery } from "@tanstack/react-query"
@@ -13,7 +13,7 @@ import { StaticImageData } from "next/image";
 
 const CurrentTierInfo = () => {
   const [expTier, setExpTierAtom] = useAtom(expTierAtom);
-  const [stats, setStats] = useAtom(statAtom);
+  const [stats] = useAtom(statAtom);
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['exp'],
     queryFn: getQuestTier,
