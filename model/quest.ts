@@ -1,5 +1,7 @@
-export default interface Quest {
+interface Quest {
   questId: string;
   content: string;
-  success: boolean;
+  isSuccess: boolean;
 }
+
+export type {Quest};
