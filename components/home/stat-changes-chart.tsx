@@ -67,35 +67,35 @@ export default function StatChangesChart() {
           data: fillMissingData(stats.map((stat) => stat.strength).reverse()),
           borderColor: '#CBAACB',
           backgroundColor: '#CBAACB80',
-          tension: 0.5
+          tension: 0.3
         },
         {
           label: "지구력",
           data: fillMissingData(stats.map((stat) => stat.endurance).reverse()),
           borderColor: '#887CFF80',
           backgroundColor: '#887CFF50',
-          tension: 0.5
+          tension: 0.3
         },
         {
           label: "순발력",
           data: fillMissingData(stats.map((stat) => stat.speed).reverse()),
           borderColor: '#ABDEE6',
           backgroundColor: '#ABDEE680',
-          tension: 0.5
+          tension: 0.3
         },
         {
           label: "유연성",
           data: fillMissingData(stats.map((stat) => stat.flexibility).reverse()),
           borderColor: '#53ACFF80',
           backgroundColor: '#53ACFF50',
-          tension: 0.5
+          tension: 0.3
         },
         {
           label: "스태미너",
           data: fillMissingData(stats.map((stat) => stat.stamina).reverse()),
           borderColor: '#55647680',
           backgroundColor: '#55647650',
-          tension: 0.1
+          tension: 0.3
         }
       ]
     })
@@ -106,14 +106,11 @@ export default function StatChangesChart() {
     // 차트 옵션 설정
     setChartOptions({
       responsive: true,
+      maintainAspectRatio: false, // 컨테이너에 맞게 종횡비 조정
       plugins: {
         legend: {
           position: 'top' as const,
         },
-        // title: {
-        //   display: true,
-        //   text: '능력치 변화 추이',
-        // },
       },
       scales: {
         y: {
@@ -128,25 +125,20 @@ export default function StatChangesChart() {
   }, []);
 
   return (
-    // <div className="w-[800px]">
-    //   {
-    //     chartData.datasets.length > 0 && (
-    //       <Line options={chartOptions} data={chartData} />
-    //     )
-    //   }
-    // </div >
-    <Card className='w-[60%]'>
+    <Card className="flex-1 min-w-[45%] flex flex-col">
       <CardHeader>
         <CardTitle>
           능력치 변화
         </CardTitle>
       </CardHeader>
-      <CardContent className='w-full'>
-        {
-          chartData.datasets.length > 0 && (
-            <Line options={chartOptions} data={chartData} />
-          )
-        }
+      <CardContent className="flex-1 flex flex-col">
+        <div className="flex-1 w-full" style={{ minHeight: '250px' }}>
+          {
+            chartData.datasets.length > 0 && (
+              <Line options={chartOptions} data={chartData} />
+            )
+          }
+        </div>
       </CardContent>
     </Card>
   );

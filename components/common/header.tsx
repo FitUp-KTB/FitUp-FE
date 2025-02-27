@@ -1,10 +1,10 @@
 "use client"
-import { Arrow_Logo, Default_Profile, FITUP_Logo } from "@/assets/images"
+import { Arrow_Logo, Default_Profile, Logo } from "@/assets/images"
 import Image from "next/image"
 import { CardDescription, CardTitle } from "../ui/card"
-import {useEffect, useState} from "react";
-import {getUserProfile} from "@/services/api/getUserProfile";
-import {UserProfileResponse} from "@/dto/userProfileDTO";
+import { useEffect, useState } from "react";
+import { getUserProfile } from "@/services/api/getUserProfile";
+import { UserProfileResponse } from "@/dto/userProfileDTO";
 
 const Header = () => {
   const [userProfile, setUserProfile] = useState<UserProfileResponse>()
@@ -24,7 +24,7 @@ const Header = () => {
         <div className="h-32 flex items-center">
           <Image src={Arrow_Logo} alt="mark" width={32} height={32} />
         </div>
-        <Image src={FITUP_Logo} alt="logo" width={100} height={66} />
+        <Image src={Logo} alt="logo" width={100} height={66} />
       </div>
       <div className="flex justify-center items-center gap-2">
         <Image src={Default_Profile} alt="profile" width={40} height={40} />
