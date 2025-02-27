@@ -14,11 +14,11 @@ import {
   ChartData,
   ChartOptions
 } from 'chart.js';
-import {useSetAtom} from "jotai";
-import {statAtom} from "@/store/statAtom";
-import {getStats} from "@/services/api/getStats";
-import {Stat} from "@/model/stat";
-import {fillMissingData} from "@/util/fillMissingData";
+import { useSetAtom } from "jotai";
+import { statAtom } from "@/store/statAtom";
+import { getStats } from "@/services/api/getStats";
+import { Stat } from "@/model/stat";
+import { fillMissingData } from "@/util/fillMissingData";
 
 // Chart.js 컴포넌트 등록
 ChartJS.register(
@@ -50,7 +50,7 @@ export default function StatChangesChart() {
       setStat(response.data.stats[0])
       setChart(response.data.stats)
       console.log(response.data.stats)
-    } catch(error) {
+    } catch (error) {
       console.error(error);
     }
   }
@@ -67,28 +67,28 @@ export default function StatChangesChart() {
           data: fillMissingData(stats.map((stat) => stat.strength).reverse()),
           borderColor: '#CBAACB',
           backgroundColor: '#CBAACB80',
-          tension: 0.1
+          tension: 0.5
         },
         {
           label: "Endurance",
           data: fillMissingData(stats.map((stat) => stat.endurance).reverse()),
           borderColor: '#887CFF80',
           backgroundColor: '#887CFF50',
-          tension: 0.1
+          tension: 0.5
         },
         {
           label: "Speed",
           data: fillMissingData(stats.map((stat) => stat.speed).reverse()),
           borderColor: '#ABDEE6',
           backgroundColor: '#ABDEE680',
-          tension: 0.1
+          tension: 0.5
         },
         {
           label: "Flexibility",
           data: fillMissingData(stats.map((stat) => stat.flexibility).reverse()),
           borderColor: '#53ACFF80',
           backgroundColor: '#53ACFF50',
-          tension: 0.1
+          tension: 0.5
         },
         {
           label: "Stamina",
@@ -110,16 +110,16 @@ export default function StatChangesChart() {
         legend: {
           position: 'top' as const,
         },
-        title: {
-          display: true,
-          text: '능력치 변화 추이',
-        },
+        // title: {
+        //   display: true,
+        //   text: '능력치 변화 추이',
+        // },
       },
     });
   }, []);
 
   return (
-    <div className="p-4 bg-white w-[800px] rounded-xl">
+    <div className="w-[800px]">
       {
         chartData.datasets.length > 0 && (
           <Line options={chartOptions} data={chartData} />
