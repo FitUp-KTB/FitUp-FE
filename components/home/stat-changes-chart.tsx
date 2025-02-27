@@ -14,6 +14,12 @@ import {
   ChartData,
   ChartOptions
 } from 'chart.js';
+import { useSetAtom } from "jotai";
+import { statAtom } from "@/store/statAtom";
+import { getStats } from "@/services/api/getStats";
+import { Stat } from "@/model/stat";
+import { fillMissingData } from "@/util/fillMissingData";
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 
 // Chart.js 컴포넌트 등록
 ChartJS.register(
@@ -32,56 +38,71 @@ export default function StatChangesChart() {
   });
   const [chartOptions, setChartOptions] = useState<ChartOptions<'line'>>({});
 
-  useEffect(() => {
-    // 차트 데이터 설정
+  // 오늘의 스탯 정보 전역 상태
+  const setStat = useSetAtom(statAtom);
+
+  // 스탯 리스트 불러오기
+  const fetchData = async () => {
+    try {
+      const response = await getStats();
+      if (!response.success) {
+        throw new Error(response.message)
+      }
+      setStat(response.data.stats[0])
+      setChart(response.data.stats)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  // Chart data setting
+  const setChart = (stats: Stat[]) => {
+    const days = fillMissingData(stats.map((stat) => stat.createdAt).reverse());
+
     setChartData({
-      labels: ['날짜1', '날짜2', '날짜3', '날짜4', '날짜5', '날짜6', '날짜7'],
+      labels: days,
       datasets: [
         {
-          label: '스탯 A',
-          data: [65, 59, 80, 81, 56, 55, 42],
+          label: "힘",
+          data: fillMissingData(stats.map((stat) => stat.strength).reverse()),
           borderColor: '#CBAACB',
           backgroundColor: '#CBAACB80',
-          tension: 0.1
+          tension: 0.5
         },
         {
-          label: '스탯 B',
-          data: [28, 48, 40, 19, 86, 27, 36],
+          label: "지구력",
+          data: fillMissingData(stats.map((stat) => stat.endurance).reverse()),
           borderColor: '#887CFF80',
           backgroundColor: '#887CFF50',
-          tension: 0.1
+          tension: 0.5
         },
         {
-          label: '스탯 C',
-          data: [33, 25, 35, 51, 54, 76, 45],
+          label: "순발력",
+          data: fillMissingData(stats.map((stat) => stat.speed).reverse()),
           borderColor: '#ABDEE6',
           backgroundColor: '#ABDEE680',
-          tension: 0.1
+          tension: 0.5
         },
         {
-          label: '스탯 D',
-          data: [12, 45, 78, 34, 56, 67, 56],
+          label: "유연성",
+          data: fillMissingData(stats.map((stat) => stat.flexibility).reverse()),
           borderColor: '#53ACFF80',
           backgroundColor: '#53ACFF50',
-          tension: 0.1
+          tension: 0.5
         },
         {
-          label: '스탯 E',
-          data: [43, 31, 52, 48, 62, 38, 42],
+          label: "스태미너",
+          data: fillMissingData(stats.map((stat) => stat.stamina).reverse()),
           borderColor: '#55647680',
-          backgroundColor: '##55647650',
-          tension: 0.1
-        },
-        {
-          label: '스탯 F',
-          data: [50, 39, 45, 70, 35, 60, 53],
-          borderColor: '#F3B0C3',
-          backgroundColor: '#d498e850',
+          backgroundColor: '#55647650',
           tension: 0.1
         }
       ]
-    });
+    })
+  }
 
+  useEffect(() => {
+    fetchData();
     // 차트 옵션 설정
     setChartOptions({
       responsive: true,
@@ -89,21 +110,38 @@ export default function StatChangesChart() {
         legend: {
           position: 'top' as const,
         },
-        title: {
-          display: true,
-          text: '능력치 변화 추이',
-        },
+        // title: {
+        //   display: true,
+        //   text: '능력치 변화 추이',
+        // },
       },
     });
   }, []);
 
   return (
-    <div className="p-4 bg-white w-[800px] rounded-xl">
-      {
-        chartData.datasets.length > 0 && (
-          <Line options={chartOptions} data={chartData} />
-        )
-      }
-    </div >
+    // <div className="w-[800px]">
+    //   {
+    //     chartData.datasets.length > 0 && (
+    //       <Line options={chartOptions} data={chartData} />
+    //     )
+    //   }
+    // </div >
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          능력치 변화
+        </CardTitle>
+      </CardHeader>
+
+      <CardContent>
+        <div className="w-[800px] pt-4">
+          {
+            chartData.datasets.length > 0 && (
+              <Line options={chartOptions} data={chartData} />
+            )
+          }
+        </div >
+      </CardContent>
+    </Card>
   );
 }

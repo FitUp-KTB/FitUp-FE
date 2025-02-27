@@ -5,20 +5,26 @@ interface QuestCreateRequest {
   main_category: string;
   sub_category: string;
   user_request: string;
+  injury?: string;
 }
 
 // 퀘스트 생성 response
 interface QuestCreateResponse {
+  dailyQuest: QuestResponse
+}
+
+// 퀘스트 수락 Request
+type QuestAcceptRequest = QuestCreateResponse;
+
+// 퀘스트 수락 Response
+interface QuestAcceptResponse {
   dailyResultSeq: number;
   dailyQuest: QuestResponse
 }
 
 // 퀘스트 리스트 조회 response
 interface QuestListResponse {
-  dailyResultSeq: number;
-  questStatus: string;
-  questSuccessCount: number;
-  createdAt: string;
+  quests: QuestOverview[];
 }
 
 // 퀘스트 상세 조회 response
@@ -33,4 +39,4 @@ interface QuestCompleteResponse {
   updatedAt: string;
 }
 
-export type {QuestCreateRequest, QuestCreateResponse, QuestListResponse, QuestResponse, QuestCompleteResponse};
+export type {QuestCreateRequest, QuestCreateResponse, QuestAcceptRequest, QuestAcceptResponse, QuestListResponse, QuestResponse, QuestCompleteResponse};

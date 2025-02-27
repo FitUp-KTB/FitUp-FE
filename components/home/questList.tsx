@@ -2,44 +2,83 @@
 import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";
 import QuestItem from "@/components/common/QuestItem";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Quest} from "@/model/quest";
+import {useAtomValue} from "jotai";
+import {recentQuestOverviewAtom} from "@/store/recentQuestOverviewAtom";
+import {getQuest} from "@/services/api/getQuest";
+import {postQuestComplete} from "@/services/api/postQuestComplete";
+import {checkIsToday} from "@/util/checkIsToday";
 
 export default function QuestList() {
   const router = useRouter();
 
   const [dailyQuest, setDailyQuest] = useState<Quest>(
-    { questId: "1", content: "물 2L 마시기", isSuccess: false },
+    { questId: "1", content: "", isSuccess: false },
   );
 
   const [sleepQuest, setSleepQuest] = useState<Quest>(
-    { questId: "2", content: "수면 7시간 30분 유지", isSuccess: false },
+    { questId: "2", content: "", isSuccess: false },
   );
 
   const [fitnessQuest, setFitnessQuest] = useState<Quest[]>([
-    { questId: "3", content: "벤치프레스 65kg 5세트 수행", isSuccess: false },
-    { questId: "4", content: "덤벨 벤치프레스 20kg 5세트", isSuccess: false },
-    { questId: "5", content: "인클라인 벤치프레스 55kg 5세트", isSuccess: false },
+    { questId: "3", content: "", isSuccess: false },
+    { questId: "4", content: "", isSuccess: false },
+    { questId: "5", content: "", isSuccess: false },
   ])
 
-  const handleCheck = async (questId: string): Promise<void> => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        // 3개의 quest에서 해당 id를 찾음
-        if (dailyQuest.questId === questId) {
-          setDailyQuest((prev) => ({ ...prev, isSuccess: true }));
-        } else if (sleepQuest.questId === questId) {
-          setSleepQuest((prev) => ({ ...prev, isSuccess: true }));
-        } else {
-          setFitnessQuest((prev) =>
-            prev.map((quest) =>
-              quest.questId === questId ? { ...quest, isSuccess: true } : quest
-            )
-          );
-        }
-        resolve();
-      }, 1000);
-    })
+  const recentQuestOverview = useAtomValue(recentQuestOverviewAtom);
+  const [todayQuestExist, setTodayQuestExists] = useState<boolean>(false);
+
+  const fetchQuest = async (seq: number) => {
+    try {
+      const response = await getQuest(seq)
+      if (!response.success) {
+        throw new Error(response.message);
+      }
+      setDailyQuest(response.data.daily);
+      setSleepQuest(response.data.sleep);
+      setFitnessQuest(response.data.fitness);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    if (recentQuestOverview && checkIsToday(recentQuestOverview.createdAt)) {
+      fetchQuest(recentQuestOverview.dailyResultSeq)
+      setTodayQuestExists(true);
+    } else {
+      setTodayQuestExists(false);
+    }
+  }, [recentQuestOverview]);
+
+  const questComplete = async (questId: string) => {
+    if (!recentQuestOverview) {return}
+    try {
+      const response = await postQuestComplete(recentQuestOverview.dailyResultSeq, questId);
+      if (!response.success) {
+        throw new Error(response.message)
+      }
+      handleCheck(questId)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const handleCheck = (questId: string) => {
+    // 3개의 quest에서 해당 id를 찾음
+    if (dailyQuest.questId === questId) {
+      setDailyQuest((prev) => ({ ...prev, isSuccess: true }));
+    } else if (sleepQuest.questId === questId) {
+      setSleepQuest((prev) => ({ ...prev, isSuccess: true }));
+    } else {
+      setFitnessQuest((prev) =>
+        prev.map((quest) =>
+          quest.questId === questId ? { ...quest, isSuccess: true } : quest
+        )
+      );
+    }
   }
 
   const handleGoToPrompt = () => {
@@ -47,28 +86,39 @@ export default function QuestList() {
   }
 
   return (
-    <div className="bg-WHITE w-96 rounded-3xl shadow p-4 flex flex-col gap-4">
+    <div className="bg-WHITE w-[400px] h-[500px] rounded-3xl shadow p-4 flex flex-col gap-4">
       <h2 className="text-xl font-bold text-gray-800">오늘의 퀘스트</h2>
+      {todayQuestExist && (
+        <div className="gap-4 flex flex-col">
+          <div>
+            <h4 className="text-lg font-semibold">일상</h4>
+            <QuestItem key={dailyQuest.questId} quest={dailyQuest} type="daily" onFinish={questComplete}/>
 
-      <div>
-        <h4 className="text-lg font-semibold">일상</h4>
-        <QuestItem key={dailyQuest.questId} quest={dailyQuest} type="daily" onFinish={handleCheck}/>
+          </div>
+          <div>
+            <h4 className="text-lg font-semibold">수면</h4>
+            <QuestItem key={sleepQuest.questId} quest={sleepQuest} type="sleep" onFinish={questComplete}/>
+          </div>
+          <div>
+            <h4 className="text-lg font-semibold">운동</h4>
+            {fitnessQuest.map((quest: Quest) => (
+              <QuestItem key={quest.questId} quest={quest} type="fitness" onFinish={questComplete}/>
+            ))}
+          </div>
 
-      </div>
-      <div>
-        <h4 className="text-lg font-semibold">수면</h4>
-        <QuestItem key={sleepQuest.questId} quest={sleepQuest} type="sleep" onFinish={handleCheck}/>
-      </div>
-      <div>
-        <h4 className="text-lg font-semibold">운동</h4>
-        {fitnessQuest.map((quest: Quest) => (
-          <QuestItem key={quest.questId} quest={quest} type="fitness" onFinish={handleCheck}/>
-        ))}
-      </div>
+          <div className="flex-1" />
 
-      <div className="flex-1" />
+          <Button onClick={handleGoToPrompt}>퀘스트 편집하러 가기</Button>
+        </div>
+      )}
 
-      <Button onClick={handleGoToPrompt}>퀘스트 편집하러 가기</Button>
+      {!todayQuestExist && (
+        <div className="flex flex-col flex-1 justify-center items-center">
+          <h2 className="text-lg font-bold text-gray-800">오늘의 퀘스트가 없습니다!</h2>
+          <Button onClick={handleGoToPrompt}>퀘스트 생성하러 가기</Button>
+        </div>
+      )}
+
     </div>
   );
 }

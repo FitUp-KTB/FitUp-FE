@@ -4,29 +4,31 @@ import { useState, FormEvent } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import {StatUpdateRequest} from "@/dto/statDTO";
+import {postStat} from "@/services/api/postStat";
 
 export default function MyStatusPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
 
   // 모든 입력 데이터를 한 번에 관리
-  const [formData, setFormData] = useState({
-    height: "",
-    weight: "",
-    bodyFat: "",
-    muscleMass: "",
-    pushup: "",
-    situp: "",
-    runningPace: "",
-    runningDuration: "",
-    squat: "",
-    benchPress: "",
-    deadlift: "",
+  const [formData, setFormData] = useState<StatUpdateRequest>({
+    height: undefined,
+    weight: undefined,
+    bodyFat: undefined,
+    muscleMass: undefined,
+    pushUps: undefined,
+    sitUps: undefined,
+    runningPace: undefined,
+    runningTime: undefined,
+    squat: undefined,
+    benchPress: undefined,
+    deadlift: undefined,
   });
 
   // 입력값 변경 핸들러
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: parseInt(e.target.value) });
   };
 
   // 다음 단계로 이동 (마지막 단계에서 제출)
@@ -36,8 +38,7 @@ export default function MyStatusPage() {
       setStep(step + 1);
     } else {
       // 마지막 단계에서 제출
-      console.log("최종 제출 데이터:", formData);
-      router.push("/home"); // 제출 후 이동할 페이지
+      handleSubmit();
     }
   };
 
@@ -48,6 +49,25 @@ export default function MyStatusPage() {
       setStep(step - 1);
     }
   };
+
+  const handleSubmit = async () => {
+    try {
+      // 입력 안된 값은 0으로 변경
+      const reqBody = Object.fromEntries(
+        Object.entries(formData).map(([key, value]) => [key, value ?? 0]),
+      ) as StatUpdateRequest
+
+      const response = await postStat(reqBody);
+      
+      if (!response.success) {
+        throw new Error(response.message)
+      }
+
+      router.push("/home");
+    } catch(error) {
+      console.error(error);
+    }
+  }
 
   return (
     <div className="flex items-center justify-center h-full pb-10">
@@ -99,7 +119,6 @@ export default function MyStatusPage() {
                     value={formData.bodyFat}
                     onChange={handleChange}
                     placeholder="%"
-                    required
                     className="no-spinner h-12 text-lg"
                   />
                 </div>
@@ -112,7 +131,6 @@ export default function MyStatusPage() {
                     value={formData.muscleMass}
                     onChange={handleChange}
                     placeholder="kg"
-                    required
                     className="no-spinner h-12 text-lg"
                   />
                 </div>
@@ -129,11 +147,10 @@ export default function MyStatusPage() {
                   <label className="block text-sm mb-1">푸쉬업 개수</label>
                   <Input
                     type="number"
-                    name="pushup"
-                    value={formData.pushup}
+                    name="pushUps"
+                    value={formData.pushUps}
                     onChange={handleChange}
                     placeholder="개수"
-                    required
                     className="no-spinner h-12 text-lg"
                   />
                 </div>
@@ -142,11 +159,10 @@ export default function MyStatusPage() {
                   <label className="block text-sm mb-1">싯업 개수</label>
                   <Input
                     type="number"
-                    name="situp"
-                    value={formData.situp}
+                    name="sitUps"
+                    value={formData.sitUps}
                     onChange={handleChange}
                     placeholder="개수"
-                    required
                     className="no-spinner h-12 text-lg"
                   />
                 </div>
@@ -167,7 +183,6 @@ export default function MyStatusPage() {
                     value={formData.runningPace}
                     onChange={handleChange}
                     placeholder="예: 5분/km"
-                    required
                     className="h-12 text-lg"
                   />
                 </div>
@@ -176,11 +191,10 @@ export default function MyStatusPage() {
                   <label className="block text-sm mb-1">러닝 지속 시간</label>
                   <Input
                     type="number"
-                    name="runningDuration"
-                    value={formData.runningDuration}
+                    name="runningTime"
+                    value={formData.runningTime}
                     onChange={handleChange}
                     placeholder="분"
-                    required
                     className="no-spinner h-12 text-lg"
                   />
                 </div>
@@ -201,7 +215,6 @@ export default function MyStatusPage() {
                     value={formData.squat}
                     onChange={handleChange}
                     placeholder="kg"
-                    required
                     className="no-spinner h-12 text-lg"
                   />
                 </div>
@@ -214,7 +227,6 @@ export default function MyStatusPage() {
                     value={formData.benchPress}
                     onChange={handleChange}
                     placeholder="kg"
-                    required
                     className="no-spinner h-12 text-lg"
                   />
                 </div>
@@ -229,7 +241,6 @@ export default function MyStatusPage() {
                     value={formData.deadlift}
                     onChange={handleChange}
                     placeholder="kg"
-                    required
                     className="no-spinner h-12 text-lg"
                   />
                 </div>
