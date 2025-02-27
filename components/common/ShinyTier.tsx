@@ -1,49 +1,16 @@
 "use client"
 
 import Image from 'next/image';
-import React, { useState, useEffect } from 'react';
 import { StaticImageData } from 'next/image';
 
 const ShinyTier = ({ imageSrc }: { imageSrc: StaticImageData }) => {
-  const [rotation, setRotation] = useState(0);
-
-  useEffect(() => {
-    const animate = () => {
-      setRotation(prevRotation => prevRotation + 0.7);
-      requestAnimationFrame(animate);
-    };
-
-    const animationFrameId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationFrameId);
-  }, []);
 
   return (
     <div>
       <div className="relative w-48 h-48 perspective-1000">
         <div
-          className="absolute w-full h-full flex items-center justify-center"
-          style={{
-            transform: `rotateY(${rotation}deg) translateZ(-1px) translateX(2px)`,
-            transformStyle: 'preserve-3d',
-            filter: 'blur(8px) brightness(0.3)',
-            opacity: 0.2,
-            zIndex: 5
-          }}
-        >
-          <Image
-            src={imageSrc}
-            alt="shadow"
-            width={300}
-            height={300}
-            className="object-contain w-full h-full z-11"
-          />
-        </div>
-
-
-        <div
           className="shiny-silver-container absolute w-full h-full flex items-center justify-center"
           style={{
-            transform: `rotateY(${rotation}deg)`,
             transformStyle: 'preserve-3d',
             position: 'relative',
             overflow: 'hidden',
@@ -83,7 +50,7 @@ const ShinyTier = ({ imageSrc }: { imageSrc: StaticImageData }) => {
             rgba(255, 255, 255, 0) 100%
           );
           transform: rotate(30deg);
-          animation: shine 6s infinite;
+          animation: shine 5s infinite;
           z-index: 20;
           pointer-events: none;
         }
