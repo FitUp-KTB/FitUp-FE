@@ -1,21 +1,22 @@
 "use client";
-import {Radar} from "react-chartjs-2";
-import {Chart, ChartData, Filler, LineElement, PointElement, RadialLinearScale} from "chart.js";
-import {COLORS} from "@/styles/colors";
+import { Radar } from "react-chartjs-2";
+import { Chart, ChartData, Filler, LineElement, PointElement, RadialLinearScale } from "chart.js";
+import { COLORS } from "@/styles/colors";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import applyAlpha from "@/util/colorUtil";
-import {statAtom} from "@/store/statAtom";
-import {useAtomValue} from "jotai";
-import {useEffect, useState} from "react";
+import { statAtom } from "@/store/statAtom";
+import { useAtomValue } from "jotai";
+import { useEffect, useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 Chart.register(RadialLinearScale, PointElement, LineElement, ChartDataLabels, Filler);
 
 const options = {
   responsive: true,
-  maintainAspectRatio: false,
+  maintainAspectRatio: false,  // 이 설정 유지
   scales: {
     r: {
-      angleLines: {display: true},
+      angleLines: { display: true },
       suggestedMin: 0,
       suggestedMax: 100,
       ticks: {
@@ -25,9 +26,9 @@ const options = {
   },
   plugins: {
     datalabels: {
-      color: COLORS.BLACK,
+      color: COLORS.MALIBU,
       font: {
-        size: 14,
+        size: 12,
         weight: "bold",
       },
       anchor: "end",
@@ -39,13 +40,13 @@ const options = {
 
 export default function StatRadarChart() {
   const stat = useAtomValue(statAtom);
-  const [chartData, setChartData] = useState<ChartData<'radar'>>({datasets: []})
+  const [chartData, setChartData] = useState<ChartData<'radar'>>({ datasets: [] })
 
   useEffect(() => {
     setChartData({
-      labels: ["Strength", "Endurance", "Speed", "Flexibility", "Stamina"],
+      labels: ["힘", "지구력", "민첩성", "유연성", "스태미너"],
       datasets: [{
-        label: "유저 스탯",
+        label: "나의 능력치",
         data: [
           stat?.strength ?? 0,
           stat?.endurance ?? 0,
@@ -54,22 +55,29 @@ export default function StatRadarChart() {
           stat?.stamina ?? 0
         ],
         fill: "start",
-        backgroundColor: applyAlpha(COLORS.PURPLE, 0.4),
-        borderColor: COLORS.PURPLE,
-        pointBackgroundColor: COLORS.PURPLE,
+        backgroundColor: applyAlpha("#8dc5f9", 0.4),
+        borderColor: "#8dc5f9",
+        pointBackgroundColor: "#8dc5f9",
+        pointRadius: 2,  // 포인트 크기 키움
+        borderWidth: 1,  // 테두리 굵기 키움
       }]
     })
   }, [stat]);
 
 
   return (
-    <div className="bg-WHITE w-72 h-72 rounded-3xl shadow p-4 flex flex-col">
-      <h2 className="text-xl font-bold text-gray-800">스탯 차트</h2>
-
-      <div className="flex-1 relative ">
-        <Radar data={chartData} options={options}/>
-      </div>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          능력치
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        {/* 차트를 감싸는 div에 명시적 높이 지정 */}
+        <div className="h-80 w-full">  {/* 높이를 h-80(20rem)으로 설정 */}
+          <Radar data={chartData} options={options} />
+        </div>
+      </CardContent>
+    </Card>
   );
 }
-

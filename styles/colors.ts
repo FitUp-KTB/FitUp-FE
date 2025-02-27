@@ -2,6 +2,7 @@ export const COLORS = {
   PURPLE: "#887CFF",
   SKY_BLUE: "#47D1FF",
   BLUE: "#53ACFF",
+  MALIBU: "#8dc5f9",
   BLACK: "#000000",
   WHITE: "#FFFFFF",
   GRAY: "#556476",
