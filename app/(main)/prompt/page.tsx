@@ -223,7 +223,7 @@ export default function WorkoutSelection() {
       </div>
       {currentQuestion && (
           <div className="bg-WHITE w-[400px] h-[500px] rounded-3xl shadow p-6 flex flex-col gap-4">
-            <h2 className="text-xl font-bold text-gray-800">오늘의 퀘스트</h2>
+            <h2 className="text-xl font-bold text-gray-800">퀘스트 목록</h2>
             <div className="gap-4 flex flex-col">
               <div>
                 <h4 className="text-lg font-semibold">일상</h4>
@@ -232,7 +232,7 @@ export default function WorkoutSelection() {
               </div>
               <div>
                 <h4 className="text-lg font-semibold">수면</h4>
-                <QuestItem key={currentQuestion?.sleep.questId} quest={currentQuestion?.sleep} type="daily"/>
+                <QuestItem key={currentQuestion?.sleep.questId} quest={currentQuestion?.sleep} type="sleep"/>
               </div>
               <div>
                 <h4 className="text-lg font-semibold">운동</h4>
