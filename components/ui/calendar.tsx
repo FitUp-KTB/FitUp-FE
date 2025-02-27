@@ -136,14 +136,14 @@ function Calendar({
   }, []);
 
   return (
-    <Card>
+    <Card className="w-[37.5%]">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           월별 퀘스트 진행도
         </CardTitle>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="flex justify-center">
         <div className="inline-block">
           <DayPicker
             showOutsideDays={showOutsideDays}

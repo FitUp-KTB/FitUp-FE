@@ -135,21 +135,18 @@ export default function StatChangesChart() {
     //     )
     //   }
     // </div >
-    <Card>
+    <Card className='w-[60%]'>
       <CardHeader>
         <CardTitle>
           능력치 변화
         </CardTitle>
       </CardHeader>
-
-      <CardContent>
-        <div className="w-[800px] pt-4">
-          {
-            chartData.datasets.length > 0 && (
-              <Line options={chartOptions} data={chartData} />
-            )
-          }
-        </div >
+      <CardContent className='w-full'>
+        {
+          chartData.datasets.length > 0 && (
+            <Line options={chartOptions} data={chartData} />
+          )
+        }
       </CardContent>
     </Card>
   );
