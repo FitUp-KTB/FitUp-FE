@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./card"
 import { useSetAtom } from "jotai";
 import { todayResultSeqAtom } from "@/store/todayResultSeqAtom";
 import { getQuestOverviews } from "@/services/api/getQuestOverviews";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type CalendarProps = React.ComponentProps<typeof DayPicker> & {
   coloredDates?: {
@@ -24,37 +24,47 @@ function Calendar({
   className,
   classNames,
   showOutsideDays = true,
-  coloredDates,
   ...props
 }: CalendarProps) {
+  // 달력 데이터 상태 관리
+  const [coloredDates, setColoredDates] = useState<{
+    gray: Date[];
+    yellow: Date[];
+    blue: Date[];
+  }>({
+    gray: [],
+    yellow: [],
+    blue: []
+  });
 
   // 색상 지정을 위한 modifiers 설정
   const modifiers = React.useMemo(() => {
     return {
-      gray: coloredDates?.gray || [],
-      yellow: coloredDates?.yellow || [],
-      blue: coloredDates?.blue || [],
+      gray: coloredDates.gray || [],
+      yellow: coloredDates.yellow || [],
+      blue: coloredDates.blue || [],
     }
   }, [coloredDates])
 
   // 각 색상별 스타일 정의
   const modifiersStyles: ModifiersStyles = {
     gray: {
-      backgroundColor: 'rgba(156, 163, 175, 0.2)', // 퀘스트 30% 완료 (미정)
+      backgroundColor: 'rgba(156, 163, 175, 0.2)', // 퀘스트 1개 완료
       color: '#6b7280'
     },
     yellow: {
-      backgroundColor: 'rgba(245, 158, 11, 0.2)', // 퀘스트 70% 완료 (미정)
+      backgroundColor: 'rgba(245, 158, 11, 0.2)', // 퀘스트 2개 완료
       color: '#f59e0b'
     },
     blue: {
-      backgroundColor: 'rgba(59, 130, 246, 0.2)', // 퀘스트 100% 완료 (미정)
+      backgroundColor: 'rgba(59, 130, 246, 0.2)', // 퀘스트 3개 이상 완료
       color: '#3b82f6'
     },
   }
 
   // dailyResultSeq 저장
   const setDailyResultSeq = useSetAtom(todayResultSeqAtom);
+
   // 퀘스트 리스트 불러오기
   const fetchData = async () => {
     try {
@@ -63,16 +73,62 @@ function Calendar({
         throw new Error(response.message)
       }
 
-      // TODO: 해당 부분에서 받은 데이터로 캘린더에 보여주기
+      // 새로운 coloredDates 객체 생성
+      const newColoredDates = {
+        gray: [] as Date[],
+        yellow: [] as Date[],
+        blue: [] as Date[]
+      };
 
-      // dailyResultSeq 저장
-      if (response.data.quests.length > 0 && response.data.quests[0].createdAt) {
-        // 오늘에 대한 dailyResultSeq가 있다면
-        setDailyResultSeq(response.data.quests[0].dailyResultSeq)
+      // API 응답 데이터 처리
+      if (response.data.quests && Array.isArray(response.data.quests)) {
+        // 일별 퀘스트 성공 카운트를 집계하기 위한 맵
+        const dateCountMap = new Map();
+
+        response.data.quests.forEach(quest => {
+          // createdAt이나 created_at 필드에서 날짜 추출
+          const dateStr = quest.createdAt
+          if (!dateStr) return;
+
+          // 날짜 문자열을 Date 객체로 변환
+          const date = new Date(dateStr);
+          if (isNaN(date.getTime())) return; // 유효하지 않은 날짜면 건너뜀
+
+          // 날짜를 YYYY-MM-DD 형식의 키로 변환
+          const dateKey = date.toISOString().split('T')[0];
+
+          // 해당 날짜의 카운트 증가
+          if (dateCountMap.has(dateKey)) {
+            dateCountMap.set(dateKey, dateCountMap.get(dateKey) + 1);
+          } else {
+            dateCountMap.set(dateKey, 1);
+          }
+
+          // dailyResultSeq 저장 (첫 번째 퀘스트에서만)
+          if (quest === response.data.quests[0] && quest.dailyResultSeq) {
+            setDailyResultSeq(quest.dailyResultSeq);
+          }
+        });
+
+        // 날짜별 카운트에 따라 coloredDates 분류
+        dateCountMap.forEach((count, dateKey) => {
+          const date = new Date(dateKey);
+
+          if (count === 1) {
+            newColoredDates.gray.push(date);
+          } else if (count === 2) {
+            newColoredDates.yellow.push(date);
+          } else if (count >= 3) {
+            newColoredDates.blue.push(date);
+          }
+        });
+
+        // 상태 업데이트
+        setColoredDates(newColoredDates);
       }
 
     } catch (error) {
-      console.error(error)
+      console.error('퀘스트 데이터 로딩 오류:', error);
     }
   }
 
@@ -161,11 +217,7 @@ function Calendar({
           </div>
         </div>
       </CardContent>
-
     </Card>
-
-
-
   )
 }
 Calendar.displayName = "Calendar"
