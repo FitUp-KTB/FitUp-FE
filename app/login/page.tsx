@@ -41,7 +41,7 @@ export default function LoginPage() {
       <Image src={Logo} alt="logo" width={300} height={200} />
       <form className="flex flex-col min-h-screen justify-center w-96" onSubmit={handleSubmit}>
         <div>
-          <label>이메일</label>
+          <label>이메일ㄷㄷㄷㄷㄷㄷㄷㄷㄷㄷㄷㄷㄷ</label>
           <Input
             type="email"
             value={email}
