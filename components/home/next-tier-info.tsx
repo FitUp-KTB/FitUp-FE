@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import CircularGauge from "../ui/circular-gauge"
 import Dumbbell from "@/assets/images/dumbbell.png"
 
-const TierInfo = () => {
+const NextTierInfo = () => {
   return (
     <Card className="inline-block">
       <CardHeader>
@@ -25,20 +25,17 @@ const TierInfo = () => {
           animate={true}                       // 애니메이션 사용 여부
           animationDuration={1000}             // 애니메이션 지속 시간(ms)
         >
-          <span className="text-sm text-muted-foreground mt-1">Bronze</span>
+          <CardTitle className="text-3xl text-BLUE">
+            Silver
+          </CardTitle>
+          <span className="text-sm mt-1 text-gray-400">25 / 30 EXP</span>
         </CircularGauge>
       </CardContent>
-      <CardFooter>
-        <CardTitle>
-          남은 EXP:
-          <span className="text-lg text-BLUE pl-2">
-            8 EXP
-          </span>
-        </CardTitle>
+      <CardFooter className="flex justify-center">
       </CardFooter>
 
     </Card>
   )
 }
 
-export default TierInfo
+export default NextTierInfo

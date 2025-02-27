@@ -2,7 +2,8 @@ import StatRadarChart from "@/components/home/statRadarChart";
 import QuestList from "@/components/home/questList";
 import { Calendar } from "@/components/ui/calendar";
 import StatChangesChart from "@/components/home/stat-changes-chart";
-import TierInfo from "@/components/home/tier-info";
+import NextTierInfo from "@/components/home/next-tier-info";
+import CurrentTierInfo from "@/components/home/current-tier-info";
 
 export default function HomePage() {
 
@@ -65,7 +66,8 @@ export default function HomePage() {
       <StatRadarChart />
       <QuestList />
       <StatChangesChart />
-      <TierInfo />
+      <NextTierInfo />
+      <CurrentTierInfo />
     </div>
   )
 }
