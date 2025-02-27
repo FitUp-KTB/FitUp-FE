@@ -5,6 +5,7 @@ interface QuestCreateRequest {
   main_category: string;
   sub_category: string;
   user_request: string;
+  injury?: string;
 }
 
 // 퀘스트 생성 response
@@ -14,12 +15,7 @@ interface QuestCreateResponse {
 }
 
 // 퀘스트 리스트 조회 response
-interface QuestListResponse {
-  dailyResultSeq: number;
-  questStatus: string;
-  questSuccessCount: number;
-  createdAt: string;
-}
+type QuestListResponse = QuestOverview[]
 
 // 퀘스트 상세 조회 response
 type QuestResponse = QuestData;

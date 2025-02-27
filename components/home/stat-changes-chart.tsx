@@ -94,7 +94,7 @@ export default function StatChangesChart() {
           label: "Stamina",
           data: fillMissingData(stats.map((stat) => stat.stamina).reverse()),
           borderColor: '#55647680',
-          backgroundColor: '##55647650',
+          backgroundColor: '#55647650',
           tension: 0.1
         }
       ]
