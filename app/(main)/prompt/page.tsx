@@ -120,7 +120,7 @@ export default function WorkoutSelection() {
         {selectedWorkout && selectedWorkout !== "기타" && !selectedSubWorkout && (
           <div className="mt-6">
             <h3 className="text-lg font-semibold text-gray-700 mb-4">
-              "{selectedWorkout}" 운동의 세부 항목을 선택하세요.
+              {`${selectedWorkout} 운동의 세부 항목을 선택하세요.`}
             </h3>
             <div className="space-y-4">
               {subWorkouts[selectedWorkout].map((subType) => (
