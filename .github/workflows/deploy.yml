@@ -3,7 +3,7 @@ name: CI/CD Pipeline for Frontend
 on:
   push:
     branches:
-      - feat/cicd/#34
+      - main
 
 jobs:
   build-and-archive:
