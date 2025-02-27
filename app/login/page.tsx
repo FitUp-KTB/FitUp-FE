@@ -1,12 +1,12 @@
 "use client"
 import Image from "next/image";
-import {FormEvent, useEffect, useState} from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { LoginRequest } from "@/dto/loginDTO";
 import { postLogin } from "@/services/api/postLogin";
-import {Background1, Background2, Logo} from "@/assets/images";
+import { Background1, Background2, Logo } from "@/assets/images";
 
 const backgroundImages = [
   Background1, Background2
@@ -21,7 +21,7 @@ export default function LoginPage() {
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prevIndex) => (prevIndex + 1) % backgroundImages.length);
-    }, 5000); // 5초마다 변경
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);
@@ -60,9 +60,8 @@ export default function LoginPage() {
             alt={`background-${i}`}
             layout="fill"
             objectFit="cover"
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              i === index ? "opacity-100" : "opacity-0"
-            }`}
+            className={`absolute inset-0 transition-opacity duration-1000 ${i === index ? "opacity-100" : "opacity-0"
+              }`}
           />
         ))}
       </div>

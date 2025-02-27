@@ -88,7 +88,7 @@ export default function QuestList() {
 
   return (
 
-    <Card >
+    <Card className="overflow-scroll">
       <CardHeader>
         <CardTitle>
           오늘의 퀘스트
@@ -96,7 +96,7 @@ export default function QuestList() {
       </CardHeader>
       <CardContent className="w-96 h-[480px] flex flex-col gap-4">
         {todayQuestExist && (
-          <div className="gap-4 flex flex-col">
+          <div className="gap-2 flex flex-col">
             <div>
               <h4 className="text-lg font-semibold">일상</h4>
               <QuestItem key={dailyQuest.questId} quest={dailyQuest} type="daily" onFinish={questComplete} />
@@ -115,7 +115,7 @@ export default function QuestList() {
 
             <div className="flex-1" />
 
-            <Button onClick={handleGoToPrompt}>퀘스트 편집하러 가기</Button>
+            <Button onClick={handleGoToPrompt} className="bg-BLUE">퀘스트 편집하러 가기</Button>
           </div>
         )}
 
