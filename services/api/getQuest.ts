@@ -3,7 +3,7 @@ import {jsonHeaderWithToken} from "@/services/api/base/headers";
 import {BaseResponse} from "@/services/api/base/baseResponse";
 
 const getQuest = async (dailyResultSeq: number): Promise<BaseResponse<QuestResponse>> => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/quests/${dailyResultSeq}`, {
+  const response = await fetch(`https://vivi-o.site/api/v1/quests/${dailyResultSeq}`, {
     method: "GET",
     headers: jsonHeaderWithToken,
   });

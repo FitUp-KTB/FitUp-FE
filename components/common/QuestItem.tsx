@@ -30,11 +30,11 @@ export default function QuestItem({ quest, type, onFinish }: QuestItemProps) {
 
       {onFinish && (
         <Button
-          className={`w-14 flex-none ${quest.isSuccess ? "bg-GRAY" : "bg-BLACK"}`}
+          className={`min-w-5 flex-none ${quest.isSuccess ? "bg-GRAY" : "bg-BLACK"} px-3 `}
           disabled={quest.isSuccess}
           onClick={handleFinish}
         >
-          {quest.isSuccess ? "완료됨" : "완료"}
+          +{quest.exp}exp
         </Button>
       )}
     </div>
