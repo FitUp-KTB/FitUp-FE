@@ -49,7 +49,6 @@ export default function StatChangesChart() {
       }
       setStat(response.data.stats[0])
       setChart(response.data.stats)
-      console.log(response.data.stats)
     } catch (error) {
       console.error(error);
     }

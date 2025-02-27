@@ -15,7 +15,9 @@ interface QuestCreateResponse {
 }
 
 // 퀘스트 리스트 조회 response
-type QuestListResponse = QuestOverview[]
+interface QuestListResponse {
+  quests: QuestOverview[];
+}
 
 // 퀘스트 상세 조회 response
 type QuestResponse = QuestData;

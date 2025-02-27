@@ -6,9 +6,11 @@ import { DayPicker, type ModifiersStyles } from "react-day-picker"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
-import {useAtom} from "jotai";
+import {useAtom, useSetAtom} from "jotai";
 import {todayResultSeqAtom} from "@/store/todayResultSeqAtom";
 import {getQuestOverviews} from "@/services/api/getQuestOverviews";
+import {useEffect} from "react";
+import {checkIsToday} from "@/util/checkIsToday";
 
 type CalendarProps = React.ComponentProps<typeof DayPicker> & {
   coloredDates?: {
@@ -52,7 +54,7 @@ function Calendar({
   }
 
   // dailyResultSeq 저장
-  const [dailyResultSeq, setDailyResultSeq] = useAtom(todayResultSeqAtom);
+  const setDailyResultSeq = useSetAtom(todayResultSeqAtom);
   // 퀘스트 리스트 불러오기
   const fetchData = async () => {
     try {
@@ -60,11 +62,23 @@ function Calendar({
       if (!response.success) {
         throw new Error(response.message)
       }
-      // response.
+
+      // TODO: 해당 부분에서 받은 데이터로 캘린더에 보여주기
+
+      // dailyResultSeq 저장
+      if (response.data.quests.length > 0 && response.data.quests[0].createdAt) {
+        // 오늘에 대한 dailyResultSeq가 있다면
+        setDailyResultSeq(response.data.quests[0].dailyResultSeq)
+      }
+
     } catch (error) {
       console.error(error)
     }
   }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div className="inline-block">
