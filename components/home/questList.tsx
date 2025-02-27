@@ -2,25 +2,51 @@
 import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";
 import QuestItem from "@/components/common/QuestItem";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Quest} from "@/model/quest";
+import {useAtomValue} from "jotai";
+import {todayResultSeqAtom} from "@/store/todayResultSeqAtom";
+import {getQuest} from "@/services/api/getQuest";
+import {log} from "node:util";
 
 export default function QuestList() {
   const router = useRouter();
 
   const [dailyQuest, setDailyQuest] = useState<Quest>(
-    { questId: "1", content: "물 2L 마시기", isSuccess: false },
+    { questId: "1", content: "", isSuccess: false },
   );
 
   const [sleepQuest, setSleepQuest] = useState<Quest>(
-    { questId: "2", content: "수면 7시간 30분 유지", isSuccess: false },
+    { questId: "2", content: "", isSuccess: false },
   );
 
   const [fitnessQuest, setFitnessQuest] = useState<Quest[]>([
-    { questId: "3", content: "벤치프레스 65kg 5세트 수행", isSuccess: false },
-    { questId: "4", content: "덤벨 벤치프레스 20kg 5세트", isSuccess: false },
-    { questId: "5", content: "인클라인 벤치프레스 55kg 5세트", isSuccess: false },
+    { questId: "3", content: "", isSuccess: false },
+    { questId: "4", content: "", isSuccess: false },
+    { questId: "5", content: "", isSuccess: false },
   ])
+
+  const dailyResultSeq = useAtomValue(todayResultSeqAtom);
+
+  const fetchQuest = async (seq: number) => {
+    try {
+      const response = await getQuest(seq)
+      if (!response.success) {
+        throw new Error(response.message);
+      }
+      setDailyQuest(response.data.daily);
+      setSleepQuest(response.data.sleep);
+      setFitnessQuest(response.data.fitness);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    if (dailyResultSeq) {
+      fetchQuest(dailyResultSeq)
+    }
+  }, [dailyResultSeq]);
 
   const handleCheck = async (questId: string): Promise<void> => {
     return new Promise((resolve) => {
