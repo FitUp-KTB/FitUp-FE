@@ -49,7 +49,6 @@ export default function StatChangesChart() {
       }
       setStat(response.data.stats[0])
       setChart(response.data.stats)
-      console.log(response.data.stats)
     } catch (error) {
       console.error(error);
     }
@@ -94,7 +93,7 @@ export default function StatChangesChart() {
           label: "Stamina",
           data: fillMissingData(stats.map((stat) => stat.stamina).reverse()),
           borderColor: '#55647680',
-          backgroundColor: '##55647650',
+          backgroundColor: '#55647650',
           tension: 0.1
         }
       ]
