@@ -3,7 +3,22 @@
 import Image from 'next/image';
 import { StaticImageData } from 'next/image';
 
-const ShinyTier = ({ imageSrc }: { imageSrc: StaticImageData }) => {
+const ShinyTier = ({ imageSrc, badge }: { imageSrc: StaticImageData, badge?: string }) => {
+  // 캐릭터 타입에 따라 뱃지 이미지 선택
+  const getBadgeImage = () => {
+    if (!badge) return null;
+
+    switch (badge) {
+      case "밸런스형":
+        return "/balance-badge.png";
+      case "성장형":
+        return "/growth-badge.png";
+      default:
+        return null;
+    }
+  };
+
+  const badgeImage = getBadgeImage();
 
   return (
     <div>
@@ -29,6 +44,18 @@ const ShinyTier = ({ imageSrc }: { imageSrc: StaticImageData }) => {
               maxHeight: '100%'
             }}
           />
+
+          {badgeImage && (
+            <div className="absolute -bottom-3 -right-3 z-20">
+              <Image
+                src={badgeImage}
+                alt="캐릭터 타입 뱃지"
+                width={32}
+                height={32}
+                className="object-contain"
+              />
+            </div>
+          )}
         </div>
       </div>
 

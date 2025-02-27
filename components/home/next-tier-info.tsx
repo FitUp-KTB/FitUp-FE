@@ -10,7 +10,7 @@ const NextTierInfo = () => {
   const [expTier] = useAtom(expTierAtom);
 
   // 티어별 경험치 경계값
-  const TIER_DEADLINE = [350, 500, 850, 1300, 2100];
+  const TIER_DEADLINE = [350, 500, 850, 1300];
   // 티어 이름 배열
   const TIER_NAMES = ["Bronze", "Silver", "Gold", "Platinum", "Diamond"];
 
@@ -55,16 +55,16 @@ const NextTierInfo = () => {
   }, [expTier.currentExp]); // 의존성 배열: currentExp가 변경될 때만 재계산
 
   return (
-    <Card className="inline-block">
+    <Card className="w-[28%]">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           다음 달 예정 티어
         </CardTitle>
-        <CardDescription>
-          다음 티어까지 남은 EXP 현황
+        <CardDescription className="w-full text-center">
+          다음 티어까지 남은 EXP
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="w-full flex justify-center">
         <CircularGauge
           value={tierInfo.currentGauge}
           maxValue={100}
@@ -84,7 +84,7 @@ const NextTierInfo = () => {
       </CardContent>
       <CardFooter className="flex justify-center items-center w-full">
         <div className="text-center text-lg font-medium">
-          총 경험치:
+          총 획득 경험치:
           <span className="text-BLUE ml-1">
             {expTier.currentExp} EXP
           </span>

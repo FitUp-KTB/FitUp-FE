@@ -115,6 +115,15 @@ export default function StatChangesChart() {
         //   text: '능력치 변화 추이',
         // },
       },
+      scales: {
+        y: {
+          beginAtZero: false, // 0부터 시작하지 않음
+          grace: '5%', // 데이터 위아래로 약간의 여백 추가
+          ticks: {
+            precision: 0 // 소수점 없이 정수로 표시
+          }
+        }
+      }
     });
   }, []);
 
