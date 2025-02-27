@@ -8,6 +8,7 @@ import {useAtomValue} from "jotai";
 import {todayResultSeqAtom} from "@/store/todayResultSeqAtom";
 import {getQuest} from "@/services/api/getQuest";
 import {log} from "node:util";
+import {postQuestComplete} from "@/services/api/postQuestComplete";
 
 export default function QuestList() {
   const router = useRouter();
@@ -48,24 +49,32 @@ export default function QuestList() {
     }
   }, [dailyResultSeq]);
 
-  const handleCheck = async (questId: string): Promise<void> => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        // 3개의 quest에서 해당 id를 찾음
-        if (dailyQuest.questId === questId) {
-          setDailyQuest((prev) => ({ ...prev, isSuccess: true }));
-        } else if (sleepQuest.questId === questId) {
-          setSleepQuest((prev) => ({ ...prev, isSuccess: true }));
-        } else {
-          setFitnessQuest((prev) =>
-            prev.map((quest) =>
-              quest.questId === questId ? { ...quest, isSuccess: true } : quest
-            )
-          );
-        }
-        resolve();
-      }, 1000);
-    })
+  const questComplete = async (questId: string) => {
+    if (!dailyResultSeq) {return}
+    try {
+      const response = await postQuestComplete(dailyResultSeq, questId);
+      if (!response.success) {
+        throw new Error(response.message)
+      }
+      handleCheck(questId)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const handleCheck = (questId: string) => {
+    // 3개의 quest에서 해당 id를 찾음
+    if (dailyQuest.questId === questId) {
+      setDailyQuest((prev) => ({ ...prev, isSuccess: true }));
+    } else if (sleepQuest.questId === questId) {
+      setSleepQuest((prev) => ({ ...prev, isSuccess: true }));
+    } else {
+      setFitnessQuest((prev) =>
+        prev.map((quest) =>
+          quest.questId === questId ? { ...quest, isSuccess: true } : quest
+        )
+      );
+    }
   }
 
   const handleGoToPrompt = () => {
@@ -78,17 +87,17 @@ export default function QuestList() {
 
       <div>
         <h4 className="text-lg font-semibold">일상</h4>
-        <QuestItem key={dailyQuest.questId} quest={dailyQuest} type="daily" onFinish={handleCheck}/>
+        <QuestItem key={dailyQuest.questId} quest={dailyQuest} type="daily" onFinish={questComplete}/>
 
       </div>
       <div>
         <h4 className="text-lg font-semibold">수면</h4>
-        <QuestItem key={sleepQuest.questId} quest={sleepQuest} type="sleep" onFinish={handleCheck}/>
+        <QuestItem key={sleepQuest.questId} quest={sleepQuest} type="sleep" onFinish={questComplete}/>
       </div>
       <div>
         <h4 className="text-lg font-semibold">운동</h4>
         {fitnessQuest.map((quest: Quest) => (
-          <QuestItem key={quest.questId} quest={quest} type="fitness" onFinish={handleCheck}/>
+          <QuestItem key={quest.questId} quest={quest} type="fitness" onFinish={questComplete}/>
         ))}
       </div>
 
