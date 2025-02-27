@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { type ReactNode, useEffect, useState } from "react"
 
 interface CircularGaugeProps {
   value: number
@@ -9,11 +9,12 @@ interface CircularGaugeProps {
   strokeWidth?: number
   primaryColor?: string
   secondaryColor?: string
-  showText?: boolean
-  textFormat?: (value: number) => string
+  showPercentage?: boolean
+  percentageClassName?: string
   animate?: boolean
   animationDuration?: number
   className?: string
+  children?: ReactNode
 }
 
 export default function CircularGauge({
@@ -23,11 +24,12 @@ export default function CircularGauge({
   strokeWidth = 15,
   primaryColor = "hsl(var(--primary))",
   secondaryColor = "hsl(var(--muted))",
-  showText = true,
-  textFormat = (value) => `${Math.round(value)}%`,
+  showPercentage = true,
+  percentageClassName = "text-2xl font-semibold",
   animate = true,
   animationDuration = 1000,
   className = "",
+  children,
 }: CircularGaugeProps) {
   const [progress, setProgress] = useState(0)
 
@@ -86,12 +88,12 @@ export default function CircularGauge({
         />
       </svg>
 
-      {/* Text in the center */}
-      {showText && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-2xl font-semibold">{textFormat(normalizedValue)}</span>
-        </div>
-      )}
+      {/* Center content */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        {showPercentage && <span className={percentageClassName}>{Math.round(normalizedValue)}%</span>}
+        {children}
+      </div>
     </div>
   )
 }
+

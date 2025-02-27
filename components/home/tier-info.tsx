@@ -24,7 +24,9 @@ const TierInfo = () => {
           primaryColor="#53ACFF"               // 진행 바 색상
           animate={true}                       // 애니메이션 사용 여부
           animationDuration={1000}             // 애니메이션 지속 시간(ms)
-        />
+        >
+          <span className="text-sm text-muted-foreground mt-1">Bronze</span>
+        </CircularGauge>
       </CardContent>
       <CardFooter>
         <CardTitle>
