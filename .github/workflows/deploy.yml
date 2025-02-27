@@ -3,7 +3,7 @@ name: CI/CD Pipeline for Frontend
 on:
   push:
     branches:
-      - main
+      - feat/cicd/#34
 
 jobs:
   build-and-archive:
@@ -61,6 +61,8 @@ jobs:
           docker system prune -af
 
       - name: Extract Build and Deploy
+        env:
+          NEXT_PUBLIC_API_BASE_URL: ${{ secrets.NEXT_PUBLIC_API_BASE_URL }}
         run: |
           tar -xzf /tmp/frontend/frontend.tar.gz -C /tmp/frontend
           mv /tmp/frontend/.next .
