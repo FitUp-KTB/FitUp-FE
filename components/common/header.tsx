@@ -1,4 +1,4 @@
-import { Arrow_Logo, Default_Profile, FITUP_Logo, Logo } from "@/assets/images"
+import { Arrow_Logo, Default_Profile, FITUP_Logo } from "@/assets/images"
 import Image from "next/image"
 import { CardDescription, CardTitle } from "../ui/card"
 
