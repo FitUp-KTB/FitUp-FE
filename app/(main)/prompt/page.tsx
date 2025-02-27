@@ -60,7 +60,7 @@ export default function WorkoutSelection() {
   const handleSendRequest = async () => {
     let reqBody: QuestCreateRequest;
     // 부상 상태면
-    if (injuryStatus) {
+    if (injuryStatus === "있음") {
       reqBody = {
         main_category: "",
         sub_category: "",
@@ -143,10 +143,10 @@ export default function WorkoutSelection() {
             <>
               <h2 className="text-2xl font-semibold mb-6">부상이 있나요?</h2>
               <div className="space-y-4">
-                <Button variant="outline" className="w-full py-3 text-lg" onClick={() => handleInjurySelect("없음")}>
+                <Button variant="outline" className="w-full py-6 text-lg" onClick={() => handleInjurySelect("없음")}>
                   없음
                 </Button>
-                <Button variant="outline" className="w-full py-3 text-lg" onClick={() => handleInjurySelect("있음")}>
+                <Button variant="outline" className="w-full py-6 text-lg" onClick={() => handleInjurySelect("있음")}>
                   있음
                 </Button>
               </div>
@@ -193,7 +193,7 @@ export default function WorkoutSelection() {
               </h2>
               <div className="space-y-4">
                 {subWorkouts[selectedWorkout].map((subType) => (
-                  <Button key={subType} variant="outline" className="w-full py-3 text-lg" onClick={() => handleSubWorkoutSelect(subType)}>
+                  <Button key={subType} variant="outline" className="w-full py-6 text-lg" onClick={() => handleSubWorkoutSelect(subType)}>
                     {subType}
                   </Button>
                 ))}
