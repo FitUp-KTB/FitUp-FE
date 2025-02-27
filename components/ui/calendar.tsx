@@ -7,7 +7,7 @@ import { DayPicker, type ModifiersStyles } from "react-day-picker"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import {useAtom, useSetAtom} from "jotai";
-import {todayResultSeqAtom} from "@/store/todayResultSeqAtom";
+import {recentQuestOverviewAtom} from "@/store/recentQuestOverviewAtom";
 import {getQuestOverviews} from "@/services/api/getQuestOverviews";
 import {useEffect} from "react";
 import {checkIsToday} from "@/util/checkIsToday";
@@ -54,7 +54,7 @@ function Calendar({
   }
 
   // dailyResultSeq 저장
-  const setDailyResultSeq = useSetAtom(todayResultSeqAtom);
+  const setRecentQuestOverview = useSetAtom(recentQuestOverviewAtom);
   // 퀘스트 리스트 불러오기
   const fetchData = async () => {
     try {
@@ -66,9 +66,9 @@ function Calendar({
       // TODO: 해당 부분에서 받은 데이터로 캘린더에 보여주기
 
       // dailyResultSeq 저장
-      if (response.data.quests.length > 0 && response.data.quests[0].createdAt) {
-        // 오늘에 대한 dailyResultSeq가 있다면
-        setDailyResultSeq(response.data.quests[0].dailyResultSeq)
+      if (response.data.quests.length > 0) {
+        // 최근 QuestOverview 저장
+        setRecentQuestOverview(response.data.quests[0])
       }
 
     } catch (error) {
