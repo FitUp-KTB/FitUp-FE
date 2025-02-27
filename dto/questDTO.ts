@@ -5,6 +5,7 @@ interface QuestCreateRequest {
   main_category: string;
   sub_category: string;
   user_request: string;
+  injury?: string;
 }
 
 // 퀘스트 생성 response

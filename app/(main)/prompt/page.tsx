@@ -3,12 +3,19 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {QuestCreateRequest} from "@/dto/questDTO";
+import {postQuestPrompt} from "@/services/api/postQuestPrompt";
 
 export default function WorkoutSelection() {
+  // 부상이 있는지 없는지
   const [injuryStatus, setInjuryStatus] = useState<string | null>(null);
+  // 부상 부위/증상 입력
   const [injuryDescription, setInjuryDescription] = useState("");
+  // 선택한 운동 종류(유산소, 무산소, 기타)
   const [selectedWorkout, setSelectedWorkout] = useState<string | null>(null);
+  // 세부 운동 항목
   const [selectedSubWorkout, setSelectedSubWorkout] = useState<string | null>(null);
+  // 운동 추가 요청 사항
   const [requestText, setRequestText] = useState("");
 
   // 이전 단계로 돌아가는 핸들러
@@ -41,8 +48,31 @@ export default function WorkoutSelection() {
   };
 
   // 요청 사항 전송 버튼 핸들러
-  const handleSendRequest = () => {
-    console.log("전송된 요청:", requestText);
+  const handleSendRequest = async () => {
+    let reqBody: QuestCreateRequest;
+    // 부상 상태면
+    if (injuryStatus) {
+      reqBody = {
+        main_category: "",
+        sub_category: "",
+        user_request: "",
+        injury: injuryDescription,
+      }
+    } else {
+      // 부상 상태가 아닌 운동 상태
+      reqBody = {
+        main_category: selectedWorkout ?? "",
+        sub_category: selectedSubWorkout ?? "",
+        user_request: requestText,
+      }
+    }
+
+    const response = await postQuestPrompt(reqBody);
+
+    if (!response.success) {
+      throw new Error(response.message)
+    }
+    
     alert("퀘스트가 생성됩니다!");
   };
 
