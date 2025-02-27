@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
 import localFont from 'next/font/local'
+import {Provider} from "jotai";
 
 const pretendard = localFont({
   src: '../fonts/PretendardVariable.woff2',
@@ -20,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${pretendard.variable} font-pretendard bg-BACKGROUND`}>
-        {children}
+        <Provider>
+          {children}
+        </Provider>
       </body>
     </html>
   );

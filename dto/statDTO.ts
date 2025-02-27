@@ -2,17 +2,17 @@
 import {Stat} from "@/model/stat";
 
 interface StatUpdateRequest {
-  height: number;
-  weight: number;
-  muscleMass: number;
-  bodyFat: number;
-  pushUps: number;
-  sitUps: number;
-  runningPace: number;
-  runningTime: number;
-  squat: number;
-  benchPress: number;
-  deadlift: number;
+  height?: number;
+  weight?: number;
+  muscleMass?: number;
+  bodyFat?: number;
+  pushUps?: number;
+  sitUps?: number;
+  runningPace?: number;
+  runningTime?: number;
+  squat?: number;
+  benchPress?: number;
+  deadlift?: number;
 }
 
 // 회원 정보 반영 response

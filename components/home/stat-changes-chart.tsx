@@ -14,6 +14,11 @@ import {
   ChartData,
   ChartOptions
 } from 'chart.js';
+import {useSetAtom} from "jotai";
+import {statAtom} from "@/store/statAtom";
+import {getStats} from "@/services/api/getStats";
+import {Stat} from "@/model/stat";
+import {fillMissingData} from "@/util/fillMissingData";
 
 // Chart.js 컴포넌트 등록
 ChartJS.register(
@@ -32,56 +37,72 @@ export default function StatChangesChart() {
   });
   const [chartOptions, setChartOptions] = useState<ChartOptions<'line'>>({});
 
-  useEffect(() => {
-    // 차트 데이터 설정
+  // 오늘의 스탯 정보 전역 상태
+  const setStat = useSetAtom(statAtom);
+
+  // 스탯 리스트 불러오기
+  const fetchData = async () => {
+    try {
+      const response = await getStats();
+      if (!response.success) {
+        throw new Error(response.message)
+      }
+      setStat(response.data.stats[0])
+      setChart(response.data.stats)
+      console.log(response.data.stats)
+    } catch(error) {
+      console.error(error);
+    }
+  }
+
+  // Chart data setting
+  const setChart = (stats: Stat[]) => {
+    const days = fillMissingData(stats.map((stat) => stat.createdAt).reverse());
+
     setChartData({
-      labels: ['날짜1', '날짜2', '날짜3', '날짜4', '날짜5', '날짜6', '날짜7'],
+      labels: days,
       datasets: [
         {
-          label: '스탯 A',
-          data: [65, 59, 80, 81, 56, 55, 42],
+          label: "Strength",
+          data: fillMissingData(stats.map((stat) => stat.strength).reverse()),
           borderColor: '#CBAACB',
           backgroundColor: '#CBAACB80',
           tension: 0.1
         },
         {
-          label: '스탯 B',
-          data: [28, 48, 40, 19, 86, 27, 36],
+          label: "Endurance",
+          data: fillMissingData(stats.map((stat) => stat.endurance).reverse()),
           borderColor: '#887CFF80',
           backgroundColor: '#887CFF50',
           tension: 0.1
         },
         {
-          label: '스탯 C',
-          data: [33, 25, 35, 51, 54, 76, 45],
+          label: "Speed",
+          data: fillMissingData(stats.map((stat) => stat.speed).reverse()),
           borderColor: '#ABDEE6',
           backgroundColor: '#ABDEE680',
           tension: 0.1
         },
         {
-          label: '스탯 D',
-          data: [12, 45, 78, 34, 56, 67, 56],
+          label: "Flexibility",
+          data: fillMissingData(stats.map((stat) => stat.flexibility).reverse()),
           borderColor: '#53ACFF80',
           backgroundColor: '#53ACFF50',
           tension: 0.1
         },
         {
-          label: '스탯 E',
-          data: [43, 31, 52, 48, 62, 38, 42],
+          label: "Stamina",
+          data: fillMissingData(stats.map((stat) => stat.stamina).reverse()),
           borderColor: '#55647680',
           backgroundColor: '##55647650',
           tension: 0.1
-        },
-        {
-          label: '스탯 F',
-          data: [50, 39, 45, 70, 35, 60, 53],
-          borderColor: '#F3B0C3',
-          backgroundColor: '#d498e850',
-          tension: 0.1
         }
       ]
-    });
+    })
+  }
 
+  useEffect(() => {
+    fetchData();
     // 차트 옵션 설정
     setChartOptions({
       responsive: true,

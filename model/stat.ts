@@ -6,6 +6,7 @@ interface Stat {
   flexibility: number;
   stamina: number;
   characterType: string;
+  createdAt: string;
 }
 
 export type {Stat};
