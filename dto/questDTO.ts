@@ -10,6 +10,14 @@ interface QuestCreateRequest {
 
 // 퀘스트 생성 response
 interface QuestCreateResponse {
+  dailyQuest: QuestResponse
+}
+
+// 퀘스트 수락 Request
+type QuestAcceptRequest = QuestCreateResponse;
+
+// 퀘스트 수락 Response
+interface QuestAcceptResponse {
   dailyResultSeq: number;
   dailyQuest: QuestResponse
 }
@@ -31,4 +39,4 @@ interface QuestCompleteResponse {
   updatedAt: string;
 }
 
-export type {QuestCreateRequest, QuestCreateResponse, QuestListResponse, QuestResponse, QuestCompleteResponse};
+export type {QuestCreateRequest, QuestCreateResponse, QuestAcceptRequest, QuestAcceptResponse, QuestListResponse, QuestResponse, QuestCompleteResponse};

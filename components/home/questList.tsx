@@ -5,10 +5,10 @@ import QuestItem from "@/components/common/QuestItem";
 import {useEffect, useState} from "react";
 import {Quest} from "@/model/quest";
 import {useAtomValue} from "jotai";
-import {todayResultSeqAtom} from "@/store/todayResultSeqAtom";
+import {recentQuestOverviewAtom} from "@/store/recentQuestOverviewAtom";
 import {getQuest} from "@/services/api/getQuest";
-import {log} from "node:util";
 import {postQuestComplete} from "@/services/api/postQuestComplete";
+import {checkIsToday} from "@/util/checkIsToday";
 
 export default function QuestList() {
   const router = useRouter();
@@ -27,7 +27,8 @@ export default function QuestList() {
     { questId: "5", content: "", isSuccess: false },
   ])
 
-  const dailyResultSeq = useAtomValue(todayResultSeqAtom);
+  const recentQuestOverview = useAtomValue(recentQuestOverviewAtom);
+  const [todayQuestExist, setTodayQuestExists] = useState<boolean>(false);
 
   const fetchQuest = async (seq: number) => {
     try {
@@ -44,15 +45,18 @@ export default function QuestList() {
   }
 
   useEffect(() => {
-    if (dailyResultSeq) {
-      fetchQuest(dailyResultSeq)
+    if (recentQuestOverview && checkIsToday(recentQuestOverview.createdAt)) {
+      fetchQuest(recentQuestOverview.dailyResultSeq)
+      setTodayQuestExists(true);
+    } else {
+      setTodayQuestExists(false);
     }
-  }, [dailyResultSeq]);
+  }, [recentQuestOverview]);
 
   const questComplete = async (questId: string) => {
-    if (!dailyResultSeq) {return}
+    if (!recentQuestOverview) {return}
     try {
-      const response = await postQuestComplete(dailyResultSeq, questId);
+      const response = await postQuestComplete(recentQuestOverview.dailyResultSeq, questId);
       if (!response.success) {
         throw new Error(response.message)
       }
@@ -82,28 +86,39 @@ export default function QuestList() {
   }
 
   return (
-    <div className="bg-WHITE w-96 rounded-3xl shadow p-4 flex flex-col gap-4">
+    <div className="bg-WHITE w-96 h-[480px] rounded-3xl shadow p-4 flex flex-col gap-4">
       <h2 className="text-xl font-bold text-gray-800">오늘의 퀘스트</h2>
+      {todayQuestExist && (
+        <div className="gap-4 flex flex-col">
+          <div>
+            <h4 className="text-lg font-semibold">일상</h4>
+            <QuestItem key={dailyQuest.questId} quest={dailyQuest} type="daily" onFinish={questComplete}/>
 
-      <div>
-        <h4 className="text-lg font-semibold">일상</h4>
-        <QuestItem key={dailyQuest.questId} quest={dailyQuest} type="daily" onFinish={questComplete}/>
+          </div>
+          <div>
+            <h4 className="text-lg font-semibold">수면</h4>
+            <QuestItem key={sleepQuest.questId} quest={sleepQuest} type="sleep" onFinish={questComplete}/>
+          </div>
+          <div>
+            <h4 className="text-lg font-semibold">운동</h4>
+            {fitnessQuest.map((quest: Quest) => (
+              <QuestItem key={quest.questId} quest={quest} type="fitness" onFinish={questComplete}/>
+            ))}
+          </div>
 
-      </div>
-      <div>
-        <h4 className="text-lg font-semibold">수면</h4>
-        <QuestItem key={sleepQuest.questId} quest={sleepQuest} type="sleep" onFinish={questComplete}/>
-      </div>
-      <div>
-        <h4 className="text-lg font-semibold">운동</h4>
-        {fitnessQuest.map((quest: Quest) => (
-          <QuestItem key={quest.questId} quest={quest} type="fitness" onFinish={questComplete}/>
-        ))}
-      </div>
+          <div className="flex-1" />
 
-      <div className="flex-1" />
+          <Button onClick={handleGoToPrompt}>퀘스트 편집하러 가기</Button>
+        </div>
+      )}
 
-      <Button onClick={handleGoToPrompt}>퀘스트 편집하러 가기</Button>
+      {!todayQuestExist && (
+        <div className="flex flex-col flex-1 justify-center items-center">
+          <h2 className="text-lg font-bold text-gray-800">오늘의 퀘스트가 없습니다!</h2>
+          <Button onClick={handleGoToPrompt}>퀘스트 생성하러 가기</Button>
+        </div>
+      )}
+
     </div>
   );
 }

@@ -6,11 +6,11 @@ import { DayPicker, type ModifiersStyles } from "react-day-picker"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "./card"
 import { useSetAtom } from "jotai";
-import { todayResultSeqAtom } from "@/store/todayResultSeqAtom";
+import { recentQuestOverviewAtom } from "@/store/recentQuestOverviewAtom";
 import { getQuestOverviews } from "@/services/api/getQuestOverviews";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "./card"
 
 type CalendarProps = React.ComponentProps<typeof DayPicker> & {
   coloredDates?: {
@@ -27,7 +27,7 @@ function Calendar({
   ...props
 }: CalendarProps) {
   // 달력 데이터 상태 관리
-  const [coloredDates, setColoredDates] = useState<{
+  const [coloredDates, setColoredDates] = React.useState<{
     gray: Date[];
     yellow: Date[];
     blue: Date[];
@@ -63,8 +63,7 @@ function Calendar({
   }
 
   // dailyResultSeq 저장
-  const setDailyResultSeq = useSetAtom(todayResultSeqAtom);
-
+  const setRecentQuestOverview = useSetAtom(recentQuestOverviewAtom);
   // 퀘스트 리스트 불러오기
   const fetchData = async () => {
     try {
@@ -106,7 +105,7 @@ function Calendar({
 
           // dailyResultSeq 저장 (첫 번째 퀘스트에서만)
           if (quest === response.data.quests[0] && quest.dailyResultSeq) {
-            setDailyResultSeq(quest.dailyResultSeq);
+            setRecentQuestOverview(quest);
           }
         });
 

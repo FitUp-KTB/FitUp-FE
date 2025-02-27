@@ -7,11 +7,13 @@ import { Run, Bed, House } from "@/assets/images"; // 실제 export 위치에 �
 interface QuestItemProps {
   quest: Quest;
   type: "fitness" | "sleep" | "daily";
-  onFinish: (questId: string) => Promise<void>;
+  onFinish?: (questId: string) => Promise<void>;
 }
 
 export default function QuestItem({ quest, type, onFinish }: QuestItemProps) {
   const handleFinish = async () => {
+    if (!onFinish) return;
+
     await onFinish(quest.questId);
   }
 
@@ -25,13 +27,17 @@ export default function QuestItem({ quest, type, onFinish }: QuestItemProps) {
       </div>
       <p>{quest.content}</p>
       <div className="flex-1" />
-      <Button
-        className={`${quest.isSuccess ? "bg-GRAY" : "bg-BLACK"}`}
-        disabled={quest.isSuccess}
-        onClick={handleFinish}
-      >
-        {quest.isSuccess ? "완료됨" : "완료"}
-      </Button>
+      {onFinish && (
+        <Button
+          className={`
+        ${quest.isSuccess ? "bg-GRAY": "bg-BLACK"}
+        `}
+          disabled={quest.isSuccess}
+          onClick={handleFinish}
+        >
+          {quest.isSuccess ? "완료됨" : "완료"}
+        </Button>
+      )}
     </div>
   )
 }
