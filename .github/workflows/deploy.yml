@@ -3,35 +3,44 @@ name: CI/CD Pipeline for Frontend
 on:
   push:
     branches:
-      - main
+      - dev
 
 jobs:
-  build-and-archive:
+  build-and-push:
+    name: Build and Push Docker Image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Install Dependencies and Build Next.js Application
+      - name: List Workspace Files
         run: |
-          npm ci --legacy-peer-deps
-          npm run build
-          tar -czf frontend.tar.gz .next package.json package-lock.json docker-compose.yml
+          echo "Current directory: $(pwd)"
+          ls -al
 
-      - name: Upload Build Artifact
-        uses: actions/upload-artifact@v4
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
         with:
-          name: frontend-build
-          path: frontend.tar.gz
-          retention-days: 1
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and Push Image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest
+          no-cache: true
+          build-args: |
+            NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_API_BASE_URL }}
 
   deploy:
-    needs: build-and-archive
+    name: Deploy Frontend Container
+    needs: build-and-push
     strategy:
       matrix:
         runner_label:
@@ -39,34 +48,16 @@ jobs:
           - server2
     runs-on:
       - self-hosted
-      - ${{ matrix.runner_label }}
+      - '${{ matrix.runner_label }}'
     steps:
-      - name: Download Build Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: frontend-build
-          path: /tmp/frontend
-
-      - name: Verify Artifact Download
+      - name: Deploy using docker run
         run: |
-          ls -al /tmp/frontend
-
-      - name: Clean Up Old Files and Containers
-        run: |
-          docker-compose down || true
-          rm -rf .next package.json package-lock.json frontend.tar.gz
-
-      - name: Remove Unused Docker Resources (Prune)
-        run: |
-          docker system prune -af
-
-      - name: Extract Build and Deploy
-        env:
-          NEXT_PUBLIC_API_BASE_URL: ${{ secrets.NEXT_PUBLIC_API_BASE_URL }}
-        run: |
-          tar -xzf /tmp/frontend/frontend.tar.gz -C /tmp/frontend
-          mv /tmp/frontend/.next .
-          mv /tmp/frontend/package.json .
-          mv /tmp/frontend/package-lock.json .
-          mv /tmp/frontend/docker-compose.yml .
-          docker-compose up -d --build
+          # Pull 최신 이미지
+          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest
+          docker stop frontend || true
+          docker rm frontend || true
+          docker run -d --name frontend -p 3000:3000 \
+            -e NODE_ENV=production \
+            -e NEXT_PUBLIC_API_BASE_URL=${{ secrets.NEXT_PUBLIC_API_BASE_URL }} \
+            --restart always \
+            ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest
