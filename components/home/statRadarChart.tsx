@@ -66,7 +66,7 @@ export default function StatRadarChart() {
 
 
   return (
-    <Card>
+    <Card className="w-[28%]">
       <CardHeader>
         <CardTitle>
           능력치

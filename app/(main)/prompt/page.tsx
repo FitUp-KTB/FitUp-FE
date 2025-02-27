@@ -117,7 +117,7 @@ export default function WorkoutSelection() {
   // 운동별 하위 카테고리
   const subWorkouts: Record<string, string[]> = {
     유산소: ["러닝", "사이클", "줄넘기"],
-    무산소: ["스쿼트", "벤치프레스", "데드리프트"],
+    무산소: ["등", "가슴", "어깨", "하체"],
   };
 
   return (

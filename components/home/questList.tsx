@@ -1,14 +1,15 @@
 "use client"
-import {Button} from "@/components/ui/button";
-import {useRouter} from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import QuestItem from "@/components/common/QuestItem";
-import {useEffect, useState} from "react";
-import {Quest} from "@/model/quest";
-import {useAtomValue} from "jotai";
-import {recentQuestOverviewAtom} from "@/store/recentQuestOverviewAtom";
-import {getQuest} from "@/services/api/getQuest";
-import {postQuestComplete} from "@/services/api/postQuestComplete";
-import {checkIsToday} from "@/util/checkIsToday";
+import { useEffect, useState } from "react";
+import { Quest } from "@/model/quest";
+import { useAtomValue } from "jotai";
+import { recentQuestOverviewAtom } from "@/store/recentQuestOverviewAtom";
+import { getQuest } from "@/services/api/getQuest";
+import { postQuestComplete } from "@/services/api/postQuestComplete";
+import { checkIsToday } from "@/util/checkIsToday";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 export default function QuestList() {
   const router = useRouter();
@@ -54,7 +55,7 @@ export default function QuestList() {
   }, [recentQuestOverview]);
 
   const questComplete = async (questId: string) => {
-    if (!recentQuestOverview) {return}
+    if (!recentQuestOverview) { return }
     try {
       const response = await postQuestComplete(recentQuestOverview.dailyResultSeq, questId);
       if (!response.success) {
@@ -86,39 +87,45 @@ export default function QuestList() {
   }
 
   return (
-    <div className="bg-WHITE w-[500px] h-[500px] rounded-3xl shadow p-4 flex flex-col gap-4">
-      <h2 className="text-xl font-bold text-gray-800">오늘의 퀘스트</h2>
-      {todayQuestExist && (
-        <div className="gap-4 flex flex-col">
-          <div>
-            <h4 className="text-lg font-semibold">일상</h4>
-            <QuestItem key={dailyQuest.questId} quest={dailyQuest} type="daily" onFinish={questComplete}/>
 
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          오늘의 퀘스트
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="w-96 h-[480px] flex flex-col gap-4">
+        {todayQuestExist && (
+          <div className="gap-4 flex flex-col">
+            <div>
+              <h4 className="text-lg font-semibold">일상</h4>
+              <QuestItem key={dailyQuest.questId} quest={dailyQuest} type="daily" onFinish={questComplete} />
+
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold">수면</h4>
+              <QuestItem key={sleepQuest.questId} quest={sleepQuest} type="sleep" onFinish={questComplete} />
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold">운동</h4>
+              {fitnessQuest.map((quest: Quest) => (
+                <QuestItem key={quest.questId} quest={quest} type="fitness" onFinish={questComplete} />
+              ))}
+            </div>
+
+            <div className="flex-1" />
+
+            <Button onClick={handleGoToPrompt}>퀘스트 편집하러 가기</Button>
           </div>
-          <div>
-            <h4 className="text-lg font-semibold">수면</h4>
-            <QuestItem key={sleepQuest.questId} quest={sleepQuest} type="sleep" onFinish={questComplete}/>
+        )}
+
+        {!todayQuestExist && (
+          <div className="flex flex-col flex-1 justify-center items-center">
+            <h2 className="text-lg font-bold text-gray-800">오늘의 퀘스트가 없습니다!</h2>
+            <Button onClick={handleGoToPrompt}>퀘스트 생성하러 가기</Button>
           </div>
-          <div>
-            <h4 className="text-lg font-semibold">운동</h4>
-            {fitnessQuest.map((quest: Quest) => (
-              <QuestItem key={quest.questId} quest={quest} type="fitness" onFinish={questComplete}/>
-            ))}
-          </div>
-
-          <div className="flex-1" />
-
-          <Button onClick={handleGoToPrompt}>퀘스트 편집하러 가기</Button>
-        </div>
-      )}
-
-      {!todayQuestExist && (
-        <div className="flex flex-col flex-1 justify-center items-center">
-          <h2 className="text-lg font-bold text-gray-800">오늘의 퀘스트가 없습니다!</h2>
-          <Button onClick={handleGoToPrompt}>퀘스트 생성하러 가기</Button>
-        </div>
-      )}
-
-    </div>
+        )}
+      </CardContent>
+    </Card>
   );
 }

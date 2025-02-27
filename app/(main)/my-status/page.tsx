@@ -4,8 +4,8 @@ import { useState, FormEvent } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import {StatUpdateRequest} from "@/dto/statDTO";
-import {postStat} from "@/services/api/postStat";
+import { StatUpdateRequest } from "@/dto/statDTO";
+import { postStat } from "@/services/api/postStat";
 
 export default function MyStatusPage() {
   const router = useRouter();
@@ -58,13 +58,13 @@ export default function MyStatusPage() {
       ) as StatUpdateRequest
 
       const response = await postStat(reqBody);
-      
+
       if (!response.success) {
         throw new Error(response.message)
       }
 
       router.push("/home");
-    } catch(error) {
+    } catch (error) {
       console.error(error);
     }
   }
@@ -74,7 +74,7 @@ export default function MyStatusPage() {
       <div className="bg-white rounded-[30px] shadow p-8 w-[600px]">
         {/* 상단 문구 */}
         <h2 className="text-2xl font-semibold mb-6">
-          신체 상태를 파악중입니다
+          신체 스펙 및 수행 능력을 변경합니다.
         </h2>
 
         <form onSubmit={handleNext} className="space-y-6">
