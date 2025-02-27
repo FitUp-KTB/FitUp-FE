@@ -88,7 +88,7 @@ export default function QuestList() {
 
   return (
 
-    <Card>
+    <Card >
       <CardHeader>
         <CardTitle>
           오늘의 퀘스트

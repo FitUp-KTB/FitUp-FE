@@ -84,9 +84,15 @@ function Calendar({
         // 일별 퀘스트 성공 카운트를 집계하기 위한 맵
         const dateCountMap = new Map();
 
+        // 첫 번째 퀘스트의 dailyResultSeq 저장
+        if (response.data.quests.length > 0) {
+          setRecentQuestOverview(response.data.quests[0]);
+        }
+
+        // 각 날짜별 성공 횟수 합산
         response.data.quests.forEach(quest => {
           // createdAt이나 created_at 필드에서 날짜 추출
-          const dateStr = quest.createdAt
+          const dateStr = quest.createdAt;
           if (!dateStr) return;
 
           // 날짜 문자열을 Date 객체로 변환
@@ -96,16 +102,13 @@ function Calendar({
           // 날짜를 YYYY-MM-DD 형식의 키로 변환
           const dateKey = date.toISOString().split('T')[0];
 
-          // 해당 날짜의 카운트 증가
-          if (dateCountMap.has(dateKey)) {
-            dateCountMap.set(dateKey, dateCountMap.get(dateKey) + 1);
-          } else {
-            dateCountMap.set(dateKey, 1);
-          }
+          // questSuccessCount를 사용하여 해당 날짜의 카운트 증가
+          const successCount = quest.questSuccessCount || 0;
 
-          // dailyResultSeq 저장 (첫 번째 퀘스트에서만)
-          if (quest === response.data.quests[0] && quest.dailyResultSeq) {
-            setRecentQuestOverview(quest);
+          if (dateCountMap.has(dateKey)) {
+            dateCountMap.set(dateKey, dateCountMap.get(dateKey) + successCount);
+          } else {
+            dateCountMap.set(dateKey, successCount);
           }
         });
 
@@ -136,7 +139,7 @@ function Calendar({
   }, []);
 
   return (
-    <Card className="w-[37.5%]">
+    <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           월별 퀘스트 진행도
