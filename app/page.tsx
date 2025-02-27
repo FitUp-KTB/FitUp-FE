@@ -1,14 +1,6 @@
-import { Button } from "@/components/ui/button";
+import {redirect} from "next/navigation";
 
-export default function Home() {
-  return (
-    <div>
-      <Button className="text-md text-ELSE-CC6">
-        프로젝트
-        프로젝트
-        프로젝트
-
-      </Button>
-    </div>
-  );
+export default function Root() {
+  redirect("/login");  // 배포 시 로그인으로 가게 해야 함
+  // redirect("/home");  // 개발 용: 홈으로 리다이렉트
 }
