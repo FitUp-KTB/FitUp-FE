@@ -2,9 +2,9 @@ import {QuestData} from "@/model/questData";
 
 // 퀘스트 생성 request
 interface QuestCreateRequest {
-  main_category: string;
-  sub_category: string;
-  user_request: string;
+  mainCategory: string;
+  subCategory: string;
+  userRequest: string;
   injury?: string;
 }
 

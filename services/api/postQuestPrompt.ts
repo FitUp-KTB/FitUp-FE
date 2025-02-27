@@ -8,6 +8,7 @@ const postQuestPrompt = async (reqBody: QuestCreateRequest): Promise<BaseRespons
     headers: jsonHeaderWithToken,
     body: JSON.stringify(reqBody),
   });
+  console.log(reqBody)
 
   return await response.json();
 }

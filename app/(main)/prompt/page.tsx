@@ -62,17 +62,17 @@ export default function WorkoutSelection() {
     // 부상 상태면
     if (injuryStatus === "있음") {
       reqBody = {
-        main_category: "",
-        sub_category: "",
-        user_request: "",
+        mainCategory: "",
+        subCategory: "",
+        userRequest: "",
         injury: injuryDescription,
       }
     } else {
       // 부상 상태가 아닌 운동 상태
       reqBody = {
-        main_category: selectedWorkout ?? "",
-        sub_category: selectedSubWorkout ?? "",
-        user_request: requestText,
+        mainCategory: selectedWorkout ?? "",
+        subCategory: selectedSubWorkout ?? "",
+        userRequest: requestText,
       }
     }
 
@@ -82,7 +82,7 @@ export default function WorkoutSelection() {
       if (!response.success) {
         throw new Error(response.message)
       }
-
+      console.log(response);
       if (response.data) {
         setCurrentQuestion(response.data.dailyQuest)
       } else {
