@@ -75,17 +75,22 @@ export default function WorkoutSelection() {
       }
     }
 
-    const response = await postQuestPrompt(reqBody);
+    try {
+      const response = await postQuestPrompt(reqBody);
 
-    if (!response.success) {
-      throw new Error(response.message)
+      if (!response.success) {
+        throw new Error(response.message)
+      }
+
+      if (response.data) {
+        setCurrentQuestion(response.data.dailyQuest)
+      } else {
+        alert("퀘스트 생성에 실패했습니다.")
+      }
+    } catch (error) {
+      console.error(error);
     }
 
-    if (response.data) {
-      setCurrentQuestion(response.data.dailyQuest)
-    } else {
-      alert("퀘스트 생성에 실패했습니다.")
-    }
   };
 
   // 퀘스트 수락하기
