@@ -1,5 +1,5 @@
 import {Button} from "@/components/ui/button";
-import Quest from "@/model/quest";
+import {Quest} from "@/model/quest";
 import Image from "next/image";
 
 interface QuestItemProps {
