@@ -30,6 +30,7 @@ export default function WorkoutSelection() {
   const handleGoBack = () => {
     if (selectedSubWorkout) {
       setSelectedSubWorkout(null);
+      setSelectedWorkout(null);
     } else if (selectedWorkout) {
       setSelectedWorkout(null);
     } else if (injuryStatus) {
@@ -59,19 +60,19 @@ export default function WorkoutSelection() {
   const handleSendRequest = async () => {
     let reqBody: QuestCreateRequest;
     // 부상 상태면
-    if (injuryStatus) {
+    if (injuryStatus === "있음") {
       reqBody = {
-        main_category: "",
-        sub_category: "",
-        user_request: "",
+        mainCategory: "",
+        subCategory: "",
+        userRequest: "",
         injury: injuryDescription,
       }
     } else {
       // 부상 상태가 아닌 운동 상태
       reqBody = {
-        main_category: selectedWorkout ?? "",
-        sub_category: selectedSubWorkout ?? "",
-        user_request: requestText,
+        mainCategory: selectedWorkout ?? "",
+        subCategory: selectedSubWorkout ?? "",
+        userRequest: requestText,
       }
     }
 
@@ -142,10 +143,10 @@ export default function WorkoutSelection() {
             <>
               <h2 className="text-2xl font-semibold mb-6">부상이 있나요?</h2>
               <div className="space-y-4">
-                <Button className="w-full py-3 text-lg" onClick={() => handleInjurySelect("없음")}>
+                <Button variant="outline" className="w-full py-6 text-lg" onClick={() => handleInjurySelect("없음")}>
                   없음
                 </Button>
-                <Button className="w-full py-3 text-lg" onClick={() => handleInjurySelect("있음")}>
+                <Button variant="outline" className="w-full py-6 text-lg" onClick={() => handleInjurySelect("있음")}>
                   있음
                 </Button>
               </div>
@@ -155,9 +156,9 @@ export default function WorkoutSelection() {
           {/* 부상 있음 선택 시 */}
           {injuryStatus === "있음" && !selectedWorkout && !selectedSubWorkout && (
             <div className="mt-6">
-              <h3 className="text-lg font-semibold text-gray-700 mb-4">
+              <h2 className="text-2xl font-semibold mb-6">
                 부상 부위와 증상을 입력해주세요.
-              </h3>
+              </h2>
               <Input
                 className="w-full py-2 mb-4"
                 placeholder="예: 무릎 통증"
@@ -176,7 +177,7 @@ export default function WorkoutSelection() {
               <h2 className="text-2xl font-semibold mb-6">어떤 운동을 하고 싶으신가요?</h2>
               <div className="space-y-4">
                 {["유산소", "무산소", "기타"].map((type) => (
-                  <Button key={type} className="w-full py-3 text-lg" onClick={() => handleWorkoutSelect(type)}>
+                  <Button key={type} variant="outline" className="w-full py-6 text-lg" onClick={() => handleWorkoutSelect(type)}>
                     {type}
                   </Button>
                 ))}
@@ -187,12 +188,12 @@ export default function WorkoutSelection() {
           {/* 운동 선택 후 하위 항목 표시 (기타 제외) */}
           {selectedWorkout && selectedWorkout !== "기타" && !selectedSubWorkout && (
             <div className="mt-6">
-              <h3 className="text-lg font-semibold text-gray-700 mb-4">
+              <h2 className="text-2xl font-semibold mb-6">
                 {`${selectedWorkout} 운동의 세부 항목을 선택하세요.`}
-              </h3>
+              </h2>
               <div className="space-y-4">
                 {subWorkouts[selectedWorkout].map((subType) => (
-                  <Button key={subType} className="w-full py-3 text-lg" onClick={() => handleSubWorkoutSelect(subType)}>
+                  <Button key={subType} variant="outline" className="w-full py-6 text-lg" onClick={() => handleSubWorkoutSelect(subType)}>
                     {subType}
                   </Button>
                 ))}
@@ -203,9 +204,9 @@ export default function WorkoutSelection() {
           {/* 최종 선택 후 추가 요청 사항 입력 */}
           {selectedSubWorkout && (
             <div className="mt-6">
-              <h3 className="text-lg font-semibold text-gray-700 mb-4">
+              <h2 className="text-2xl font-semibold mb-6">
                 추가 요청 사항을 입력해주세요.
-              </h3>
+              </h2>
               <Input
                 className="w-full py-2 mb-4"
                 placeholder="예: 운동 강도를 조절해 주세요."

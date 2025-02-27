@@ -19,25 +19,26 @@ export default function QuestItem({ quest, type, onFinish }: QuestItemProps) {
 
   // 그리고 iconSrc 함수 대신 직접 컴포넌트 사용
   return (
-    <div className="flex flex-row items-center gap-2">
-      <div className={`w-10 h-10 ${quest.isSuccess ? "bg-gradient-to-r from-purple-300 to-purple-500" : "bg-BACKGROUND"} rounded-full flex items-center justify-center shadow-lg mb-1`}>
+    <div className="flex flex-wrap items-center gap-2">
+      <div className={`w-10 h-10 flex-none ${quest.isSuccess ? "bg-gradient-to-r from-purple-300 to-purple-500" : "bg-BACKGROUND"} rounded-full flex items-center justify-center shadow-lg mb-1`}>
         {type === "fitness" && <Image src={Run} alt="icon" width={24} height={24} />}
         {type === "sleep" && <Image src={Bed} alt="icon" width={24} height={24} />}
         {type === "daily" && <Image src={House} alt="icon" width={24} height={24} />}
       </div>
-      <p>{quest.content}</p>
-      <div className="flex-1" />
+
+      <p className="flex-1 min-w-0 break-words">{quest.content}</p>
+
       {onFinish && (
         <Button
-          className={`
-        ${quest.isSuccess ? "bg-GRAY": "bg-BLACK"}
-        `}
+          className={`min-w-5 flex-none ${quest.isSuccess ? "bg-GRAY" : "bg-BLACK"} px-3 `}
           disabled={quest.isSuccess}
           onClick={handleFinish}
         >
-          {quest.isSuccess ? "완료됨" : "완료"}
+          +{quest.exp}exp
         </Button>
       )}
     </div>
+
+
   )
 }
