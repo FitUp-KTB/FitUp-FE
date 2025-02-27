@@ -61,13 +61,13 @@ export default function HomePage() {
 
 
   return (
-    <div className="gap-8">
-      <Calendar coloredDates={coloredDates} />
-      <StatRadarChart />
-      <QuestList />
-      <StatChangesChart />
-      <NextTierInfo />
+    <div className="flex gap-6 flex-wrap">
       <CurrentTierInfo />
+      <NextTierInfo />
+      <StatRadarChart />
+      <StatChangesChart />
+      <Calendar coloredDates={coloredDates} />
+      <QuestList />
     </div>
   )
 }

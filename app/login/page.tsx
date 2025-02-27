@@ -1,11 +1,12 @@
 "use client"
 import Image from "next/image";
-import {FormEvent, useState} from "react";
-import {Input} from "@/components/ui/input";
-import {Button} from "@/components/ui/button";
-import {useRouter} from "next/navigation";
-import {LoginRequest} from "@/dto/loginDTO";
-import {postLogin} from "@/services/api/postLogin";
+import { FormEvent, useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { LoginRequest } from "@/dto/loginDTO";
+import { postLogin } from "@/services/api/postLogin";
+import { Logo } from "@/assets/images";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -36,7 +37,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex h-full justify-center gap-20">
-      <Image src="/images/logo.svg" alt="logo" width={300} height={200}/>
+      <Image src={Logo} alt="logo" width={300} height={200} />
       <form className="flex flex-col min-h-screen justify-center w-96" onSubmit={handleSubmit}>
         <div>
           <label>이메일</label>

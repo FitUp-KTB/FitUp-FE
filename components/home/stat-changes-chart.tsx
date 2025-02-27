@@ -19,6 +19,7 @@ import { statAtom } from "@/store/statAtom";
 import { getStats } from "@/services/api/getStats";
 import { Stat } from "@/model/stat";
 import { fillMissingData } from "@/util/fillMissingData";
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 
 // Chart.js 컴포넌트 등록
 ChartJS.register(
@@ -62,35 +63,35 @@ export default function StatChangesChart() {
       labels: days,
       datasets: [
         {
-          label: "Strength",
+          label: "힘",
           data: fillMissingData(stats.map((stat) => stat.strength).reverse()),
           borderColor: '#CBAACB',
           backgroundColor: '#CBAACB80',
           tension: 0.5
         },
         {
-          label: "Endurance",
+          label: "지구력",
           data: fillMissingData(stats.map((stat) => stat.endurance).reverse()),
           borderColor: '#887CFF80',
           backgroundColor: '#887CFF50',
           tension: 0.5
         },
         {
-          label: "Speed",
+          label: "순발력",
           data: fillMissingData(stats.map((stat) => stat.speed).reverse()),
           borderColor: '#ABDEE6',
           backgroundColor: '#ABDEE680',
           tension: 0.5
         },
         {
-          label: "Flexibility",
+          label: "유연성",
           data: fillMissingData(stats.map((stat) => stat.flexibility).reverse()),
           borderColor: '#53ACFF80',
           backgroundColor: '#53ACFF50',
           tension: 0.5
         },
         {
-          label: "Stamina",
+          label: "스태미너",
           data: fillMissingData(stats.map((stat) => stat.stamina).reverse()),
           borderColor: '#55647680',
           backgroundColor: '#55647650',
@@ -118,12 +119,29 @@ export default function StatChangesChart() {
   }, []);
 
   return (
-    <div className="w-[800px]">
-      {
-        chartData.datasets.length > 0 && (
-          <Line options={chartOptions} data={chartData} />
-        )
-      }
-    </div >
+    // <div className="w-[800px]">
+    //   {
+    //     chartData.datasets.length > 0 && (
+    //       <Line options={chartOptions} data={chartData} />
+    //     )
+    //   }
+    // </div >
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          능력치 변화
+        </CardTitle>
+      </CardHeader>
+
+      <CardContent>
+        <div className="w-[800px] pt-4">
+          {
+            chartData.datasets.length > 0 && (
+              <Line options={chartOptions} data={chartData} />
+            )
+          }
+        </div >
+      </CardContent>
+    </Card>
   );
 }

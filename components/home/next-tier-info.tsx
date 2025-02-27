@@ -1,14 +1,11 @@
-import Image from "next/image"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
 import CircularGauge from "../ui/circular-gauge"
-import Dumbbell from "@/assets/images/dumbbell.png"
 
 const NextTierInfo = () => {
   return (
     <Card className="inline-block">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Image src={Dumbbell} alt="logo" width={24} height={24} className="border border-black rounded-xl" />
           다음 달 예정 티어
         </CardTitle>
         <CardDescription>
@@ -25,9 +22,9 @@ const NextTierInfo = () => {
           animate={true}                       // 애니메이션 사용 여부
           animationDuration={1000}             // 애니메이션 지속 시간(ms)
         >
-          <CardTitle className="text-3xl text-BLUE">
+          <div className="text-3xl text-BLUE font-bold">
             Silver
-          </CardTitle>
+          </div>
           <span className="text-sm mt-1 text-gray-400">25 / 30 EXP</span>
         </CircularGauge>
       </CardContent>

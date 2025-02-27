@@ -1,29 +1,25 @@
-import Image from "next/image";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Dumbbell, Silver } from "@/assets/images";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import { Silver } from "@/assets/images";
 import ShinyTier from "../common/ShinyTier";
 
 const CurrentTierInfo = () => {
   return (
-    <Card>
+    <Card className="static min-w-[30%]">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Image src={Dumbbell} alt="logo" width={24} height={24} className="border border-black rounded-xl" />
-          나의 티어
+          내 정보
         </CardTitle>
       </CardHeader>
 
       <CardContent className="flex justify-center items-center">
-        <div className="flex-1">
+        <div className="space-y-4">
+          <CardDescription className="text-center text-md font-bold">내 티어</CardDescription>
           <ShinyTier imageSrc={Silver} />
-        </div>
-        <div className="flex-1">
+          <div className="text-center font-bold text-2xl">
+            Silver
+          </div>
         </div>
       </CardContent>
-
-
-      {/* <CardFooter>
-      </CardFooter> */}
     </Card>
   )
 }
