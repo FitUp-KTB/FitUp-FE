@@ -115,6 +115,15 @@ export default function StatChangesChart() {
         //   text: '능력치 변화 추이',
         // },
       },
+      scales: {
+        y: {
+          beginAtZero: false, // 0부터 시작하지 않음
+          grace: '5%', // 데이터 위아래로 약간의 여백 추가
+          ticks: {
+            precision: 0 // 소수점 없이 정수로 표시
+          }
+        }
+      }
     });
   }, []);
 
@@ -126,21 +135,18 @@ export default function StatChangesChart() {
     //     )
     //   }
     // </div >
-    <Card>
+    <Card className='w-[60%]'>
       <CardHeader>
         <CardTitle>
           능력치 변화
         </CardTitle>
       </CardHeader>
-
-      <CardContent>
-        <div className="w-[800px] pt-4">
-          {
-            chartData.datasets.length > 0 && (
-              <Line options={chartOptions} data={chartData} />
-            )
-          }
-        </div >
+      <CardContent className='w-full'>
+        {
+          chartData.datasets.length > 0 && (
+            <Line options={chartOptions} data={chartData} />
+          )
+        }
       </CardContent>
     </Card>
   );

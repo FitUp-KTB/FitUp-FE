@@ -1,9 +1,25 @@
 "use client"
 
+import { Power, Runner } from '@/assets/images';
 import Image from 'next/image';
 import { StaticImageData } from 'next/image';
 
-const ShinyTier = ({ imageSrc }: { imageSrc: StaticImageData }) => {
+const ShinyTier = ({ imageSrc, badge }: { imageSrc: StaticImageData, badge?: string }) => {
+  // 캐릭터 타입에 따라 뱃지 이미지 선택
+  const getBadgeImage = () => {
+    if (!badge) return null;
+
+    switch (badge) {
+      case "POWER":
+        return Power
+      case "RUNNER":
+        return Runner
+      default:
+        return null;
+    }
+  };
+
+  const badgeImage = getBadgeImage();
 
   return (
     <div>
@@ -29,7 +45,22 @@ const ShinyTier = ({ imageSrc }: { imageSrc: StaticImageData }) => {
               maxHeight: '100%'
             }}
           />
+
         </div>
+
+        {badgeImage && (
+          <div className="absolute -bottom-[-10px] -right-[-4px] z-20 z-1000">
+            <Image
+              src={badgeImage}
+              alt="캐릭터 타입 뱃지"
+              // width={72}
+              // height={72}
+              width={1}
+              height={1}
+              className="object-contain"
+            />
+          </div>
+        )}
       </div>
 
 
