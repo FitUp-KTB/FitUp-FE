@@ -26,19 +26,19 @@ export default function QuestItem({quest, type, onFinish}: QuestItemProps) {
 
   return (
     <div className="flex flex-row items-center gap-2">
-      <div className={`w-10 h-10 ${quest.success ? "bg-gradient-to-r from-purple-300 to-purple-500"  : "bg-BACKGROUND"} rounded-full flex items-center justify-center shadow-lg mb-1`}>
+      <div className={`w-10 h-10 ${quest.isSuccess ? "bg-gradient-to-r from-purple-300 to-purple-500"  : "bg-BACKGROUND"} rounded-full flex items-center justify-center shadow-lg mb-1`}>
         <Image src={iconSrc()} alt="icon" width={24} height={24}/>
       </div>
       <p>{quest.content}</p>
       <div className="flex-1" />
       <Button
         className={`
-        ${quest.success ? "bg-GRAY": "bg-BLACK"}
+        ${quest.isSuccess ? "bg-GRAY": "bg-BLACK"}
         `}
-        disabled={quest.success}
+        disabled={quest.isSuccess}
         onClick={handleFinish}
       >
-        {quest.success ? "완료됨" : "완료"}
+        {quest.isSuccess ? "완료됨" : "완료"}
       </Button>
     </div>
   )
