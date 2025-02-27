@@ -6,6 +6,9 @@ import { DayPicker, type ModifiersStyles } from "react-day-picker"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
+import {useAtom} from "jotai";
+import {todayResultSeqAtom} from "@/store/todayResultSeqAtom";
+import {getQuestOverviews} from "@/services/api/getQuestOverviews";
 
 type CalendarProps = React.ComponentProps<typeof DayPicker> & {
   coloredDates?: {
@@ -46,6 +49,21 @@ function Calendar({
       backgroundColor: 'rgba(59, 130, 246, 0.2)', // 퀘스트 100% 완료 (미정)
       color: '#3b82f6'
     },
+  }
+
+  // dailyResultSeq 저장
+  const [dailyResultSeq, setDailyResultSeq] = useAtom(todayResultSeqAtom);
+  // 퀘스트 리스트 불러오기
+  const fetchData = async () => {
+    try {
+      const response = await getQuestOverviews();
+      if (!response.success) {
+        throw new Error(response.message)
+      }
+      // response.
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
