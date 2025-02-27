@@ -2,6 +2,7 @@ import StatRadarChart from "@/components/home/statRadarChart";
 import QuestList from "@/components/home/questList";
 import { Calendar } from "@/components/ui/calendar";
 import StatChangesChart from "@/components/home/stat-changes-chart";
+import TierInfo from "@/components/home/tier-info";
 
 export default function HomePage() {
 
@@ -59,11 +60,12 @@ export default function HomePage() {
 
 
   return (
-    <div className="flex flex-row gap-8">
+    <div className="gap-8">
       <Calendar coloredDates={coloredDates} />
       <StatRadarChart />
       <QuestList />
       <StatChangesChart />
+      <TierInfo />
     </div>
   )
 }
