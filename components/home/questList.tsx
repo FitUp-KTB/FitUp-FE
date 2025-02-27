@@ -14,17 +14,17 @@ export default function QuestList() {
   const router = useRouter();
 
   const [dailyQuest, setDailyQuest] = useState<Quest>(
-    { questId: "1", content: "", isSuccess: false },
+    { questId: "1", content: "", exp: 0, isSuccess: false },
   );
 
   const [sleepQuest, setSleepQuest] = useState<Quest>(
-    { questId: "2", content: "", isSuccess: false },
+    { questId: "2", content: "", exp: 0, isSuccess: false },
   );
 
   const [fitnessQuest, setFitnessQuest] = useState<Quest[]>([
-    { questId: "3", content: "", isSuccess: false },
-    { questId: "4", content: "", isSuccess: false },
-    { questId: "5", content: "", isSuccess: false },
+    { questId: "3", content: "", exp: 0, isSuccess: false },
+    { questId: "4", content: "", exp: 0, isSuccess: false },
+    { questId: "5", content: "", exp: 0, isSuccess: false },
   ])
 
   const recentQuestOverview = useAtomValue(recentQuestOverviewAtom);
@@ -86,7 +86,7 @@ export default function QuestList() {
   }
 
   return (
-    <div className="bg-WHITE w-[400px] h-[500px] rounded-3xl shadow p-4 flex flex-col gap-4">
+    <div className="bg-WHITE w-[500px] h-[500px] rounded-3xl shadow p-4 flex flex-col gap-4">
       <h2 className="text-xl font-bold text-gray-800">오늘의 퀘스트</h2>
       {todayQuestExist && (
         <div className="gap-4 flex flex-col">
