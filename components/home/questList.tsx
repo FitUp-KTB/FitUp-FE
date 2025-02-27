@@ -3,23 +3,23 @@ import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";
 import QuestItem from "@/components/common/QuestItem";
 import {useState} from "react";
-import Quest from "@/model/quest";
+import {Quest} from "@/model/quest";
 
 export default function QuestList() {
   const router = useRouter();
 
   const [dailyQuest, setDailyQuest] = useState<Quest>(
-    { questId: "1", content: "물 2L 마시기", success: false },
+    { questId: "1", content: "물 2L 마시기", isSuccess: false },
   );
 
   const [sleepQuest, setSleepQuest] = useState<Quest>(
-    { questId: "2", content: "수면 7시간 30분 유지", success: false },
+    { questId: "2", content: "수면 7시간 30분 유지", isSuccess: false },
   );
 
   const [fitnessQuest, setFitnessQuest] = useState<Quest[]>([
-    { questId: "3", content: "벤치프레스 65kg 5세트 수행", success: false },
-    { questId: "4", content: "덤벨 벤치프레스 20kg 5세트", success: false },
-    { questId: "5", content: "인클라인 벤치프레스 55kg 5세트", success: false },
+    { questId: "3", content: "벤치프레스 65kg 5세트 수행", isSuccess: false },
+    { questId: "4", content: "덤벨 벤치프레스 20kg 5세트", isSuccess: false },
+    { questId: "5", content: "인클라인 벤치프레스 55kg 5세트", isSuccess: false },
   ])
 
   const handleCheck = async (questId: string): Promise<void> => {
@@ -27,13 +27,13 @@ export default function QuestList() {
       setTimeout(() => {
         // 3개의 quest에서 해당 id를 찾음
         if (dailyQuest.questId === questId) {
-          setDailyQuest((prev) => ({ ...prev, success: true }));
+          setDailyQuest((prev) => ({ ...prev, isSuccess: true }));
         } else if (sleepQuest.questId === questId) {
-          setSleepQuest((prev) => ({ ...prev, success: true }));
+          setSleepQuest((prev) => ({ ...prev, isSuccess: true }));
         } else {
           setFitnessQuest((prev) =>
             prev.map((quest) =>
-              quest.questId === questId ? { ...quest, success: true } : quest
+              quest.questId === questId ? { ...quest, isSuccess: true } : quest
             )
           );
         }
