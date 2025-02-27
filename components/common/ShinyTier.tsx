@@ -21,6 +21,26 @@ const ShinyTier = ({ imageSrc }: { imageSrc: StaticImageData }) => {
     <div>
       <div className="relative w-48 h-48 perspective-1000">
         <div
+          className="absolute w-full h-full flex items-center justify-center"
+          style={{
+            transform: `rotateY(${rotation}deg) translateZ(-1px) translateX(2px)`,
+            transformStyle: 'preserve-3d',
+            filter: 'blur(8px) brightness(0.3)',
+            opacity: 0.2,
+            zIndex: 5
+          }}
+        >
+          <Image
+            src={imageSrc}
+            alt="shadow"
+            width={300}
+            height={300}
+            className="object-contain w-full h-full z-11"
+          />
+        </div>
+
+
+        <div
           className="shiny-silver-container absolute w-full h-full flex items-center justify-center"
           style={{
             transform: `rotateY(${rotation}deg)`,
@@ -44,6 +64,7 @@ const ShinyTier = ({ imageSrc }: { imageSrc: StaticImageData }) => {
           />
         </div>
       </div>
+
 
       <style jsx global>{`
         .shiny-silver-container::before {
