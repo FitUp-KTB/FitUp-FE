@@ -11,9 +11,9 @@ export default function MainLayout({
       {/* 헤더 */}
       <Header />
 
-      <div className="flex flex-1">
+      <div className="flex flex-1 bg-WHITE">
         {/* 컨텐츠 영역 */}
-        <main className="flex-1 p-6 bg-BACKGROUND">
+        <main className="flex-1 my-2 mx-4 p-6 bg-BACKGROUND rounded-xl">
           {children}
         </main>
 
