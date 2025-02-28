@@ -66,9 +66,9 @@ export default function LoginPage() {
         ))}
       </div>
 
-      <div className="z-10 w-[480px] flex flex-col gap-16 justify-center items-center m-auto py-32 rounded-2xl shadow-lg bg-white bg-opacity-60">
+      <div className="z-10 w-[420px] h-[520px] flex flex-col gap-16 justify-center items-center m-auto py-32 rounded-3xl shadow-lg bg-white bg-opacity-60">
         <Image src={Logo} alt="logo" width={300} height={200} />
-        <form className="flex flex-col justify-center w-96" onSubmit={handleSubmit}>
+        <form className="flex flex-col justify-center w-80" onSubmit={handleSubmit}>
           <div className="mb-2">
             <label>이메일</label>
             <Input
