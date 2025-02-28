@@ -18,7 +18,7 @@ const UserInfoCard = () => {
   const userInfo = data?.data;
 
   return (
-    <Card className="flex-1 min-w-[300px] space-y-6">
+    <Card className="flex-1 min-w-[300px]">
       <CardHeader>
         <CardTitle>사용자 정보</CardTitle>
       </CardHeader>

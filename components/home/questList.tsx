@@ -88,7 +88,7 @@ export default function QuestList() {
 
   return (
 
-    <Card className="overflow-scroll">
+    <Card>
       <CardHeader>
         <CardTitle>
           오늘의 퀘스트
@@ -115,7 +115,7 @@ export default function QuestList() {
 
             <div className="flex-1" />
 
-            <Button onClick={handleGoToPrompt} className="bg-BLUE">퀘스트 편집하러 가기</Button>
+            <Button onClick={handleGoToPrompt} className="rounded-2xl bg-BLUE">퀘스트 편집하러 가기</Button>
           </div>
         )}
 
