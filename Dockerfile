@@ -16,6 +16,7 @@ ENV NODE_ENV=production
 COPY --from=builder /app/package.json .
 COPY --from=builder /app/package-lock.json .
 COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
 
 # production 의존성 설치
 RUN npm ci --production --legacy-peer-deps
