@@ -30,7 +30,7 @@ export default function QuestItem({ quest, type, onFinish }: QuestItemProps) {
 
       {onFinish && (
         <Button
-          className={`min-w-5 flex-none hover:bg-MALIBU ease-in shadow-lg ${quest.isSuccess ? "bg-GRAY text-gray-300" : "bg-BLACK"} px-3 `}
+          className={`min-w-5 flex-none hover:bg-gray-500 ease-in shadow-lg ${quest.isSuccess ? "bg-GRAY text-gray-300" : "bg-MALIBU"} px-3 `}
           disabled={quest.isSuccess}
           onClick={handleFinish}
         >
