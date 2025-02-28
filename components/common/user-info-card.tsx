@@ -5,9 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { User, Weight, Activity, Heart, Dumbbell, Target } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { getUserProfile } from '@/services/api/getUserProfile';
+import { ApiResponse, UserProfileResponse, UserStat, User as UserType } from '@/types/user-profile.types';
 
 const UserInfoCard = () => {
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error } = useQuery<ApiResponse<UserProfileResponse>, Error>({
     queryKey: ['userInfo'],
     queryFn: getUserProfile,
   });
@@ -16,11 +17,29 @@ const UserInfoCard = () => {
   if (isError) return <div>에러 발생: {error.message}</div>;
 
   const userInfo = data?.data;
-  const userStat = userInfo?.stat || {};
-  const userDetail = userStat?.user || {};
+  // Use type assertion with default empty objects that match the expected shape
+  const userStat: UserStat = userInfo?.stat || {
+    createdAt: "",
+    updatedAt: "",
+    userStatSeq: null,
+    user: null,
+    height: 0,
+    weight: 0,
+    fat: 0,
+    muscleMass: 0,
+    pushUps: 0,
+    sitUp: 0,
+    runningPace: 0,
+    runningTime: 0,
+    squat: 0,
+    benchPress: 0,
+    deadLift: 0
+  };
+
+  const userDetail: Partial<UserType> = userStat.user || {};
 
   // Calculate age from birthDate
-  const calculateAge = (birthDate) => {
+  const calculateAge = (birthDate?: string): string => {
     if (!birthDate) return "미설정";
     const today = new Date();
     const birth = new Date(birthDate);
@@ -33,7 +52,7 @@ const UserInfoCard = () => {
   };
 
   // Format gender
-  const formatGender = (gender) => {
+  const formatGender = (gender?: string): string => {
     if (!gender) return "미설정";
     return gender === "MALE" ? "남성" : "여성";
   };
@@ -75,11 +94,11 @@ const UserInfoCard = () => {
           <div className="text-sm space-y-2">
             <p className="flex items-center">
               <span className="w-2 h-2 bg-purple-400 rounded-full mr-2"></span>
-              <span className="font-medium">키:</span> {userStat.height || 0}cm
+              <span className="font-medium">키:</span> {userStat.height}cm
             </p>
             <p className="flex items-center">
               <span className="w-2 h-2 bg-purple-400 rounded-full mr-2"></span>
-              <span className="font-medium">체중:</span> {userStat.weight || 0}kg
+              <span className="font-medium">체중:</span> {userStat.weight}kg
             </p>
             <p className="flex items-center">
               <span className="w-2 h-2 bg-purple-400 rounded-full mr-2"></span>
@@ -97,11 +116,11 @@ const UserInfoCard = () => {
           <div className="text-sm space-y-2">
             <p className="flex items-center">
               <span className="w-2 h-2 bg-cyan-400 rounded-full mr-2"></span>
-              <span className="font-medium">체지방:</span> {userStat.fat || 0}kg
+              <span className="font-medium">체지방:</span> {userStat.fat}kg
             </p>
             <p className="flex items-center">
               <span className="w-2 h-2 bg-cyan-400 rounded-full mr-2"></span>
-              <span className="font-medium">근육량:</span> {userStat.muscleMass || 0}kg
+              <span className="font-medium">근육량:</span> {userStat.muscleMass}kg
             </p>
             <p className="flex items-center">
               <span className="w-2 h-2 bg-cyan-400 rounded-full mr-2"></span>
@@ -120,15 +139,15 @@ const UserInfoCard = () => {
           <div className="text-sm space-y-2">
             <p className="flex items-center">
               <span className="w-2 h-2 bg-[#CBAACB] rounded-full mr-2"></span>
-              <span className="font-medium">푸시업:</span> {userStat.pushUps || 0}회
+              <span className="font-medium">푸시업:</span> {userStat.pushUps}회
             </p>
             <p className="flex items-center">
               <span className="w-2 h-2 bg-[#CBAACB] rounded-full mr-2"></span>
-              <span className="font-medium">윗몸일으키기:</span> {userStat.sitUp || 0}회
+              <span className="font-medium">윗몸일으키기:</span> {userStat.sitUp}회
             </p>
             <p className="flex items-center">
               <span className="w-2 h-2 bg-[#CBAACB] rounded-full mr-2"></span>
-              <span className="font-medium">달리기:</span> {userStat.runningTime || 0}분 ({userStat.runningPace || 0}km/h)
+              <span className="font-medium">달리기:</span> {userStat.runningTime}분 ({userStat.runningPace}km/h)
             </p>
           </div>
         </div>
@@ -142,15 +161,15 @@ const UserInfoCard = () => {
           <div className="text-sm space-y-2">
             <p className="flex items-center">
               <span className="w-2 h-2 bg-[#ABDEE6] rounded-full mr-2"></span>
-              <span className="font-medium">스쿼트:</span> {userStat.squat || 0}kg
+              <span className="font-medium">스쿼트:</span> {userStat.squat}kg
             </p>
             <p className="flex items-center">
               <span className="w-2 h-2 bg-[#ABDEE6] rounded-full mr-2"></span>
-              <span className="font-medium">벤치프레스:</span> {userStat.benchPress || 0}kg
+              <span className="font-medium">벤치프레스:</span> {userStat.benchPress}kg
             </p>
             <p className="flex items-center">
               <span className="w-2 h-2 bg-[#ABDEE6] rounded-full mr-2"></span>
-              <span className="font-medium">데드리프트:</span> {userStat.deadLift || 0}kg
+              <span className="font-medium">데드리프트:</span> {userStat.deadLift}kg
             </p>
           </div>
         </div>
