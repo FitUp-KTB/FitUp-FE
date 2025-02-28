@@ -13,7 +13,7 @@ export default function MainLayout({
 
       <div className="flex flex-1 bg-WHITE">
         {/* 컨텐츠 영역 */}
-        <main className="flex-1 my-2 mx-4 p-6 bg-BACKGROUND rounded-xl">
+        <main className="flex-1 my-2 mx-4 pb-24 p-6 bg-BACKGROUND rounded-xl">
           {children}
         </main>
 
