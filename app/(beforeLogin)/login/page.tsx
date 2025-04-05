@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { LoginRequest } from "@/dto/loginDTO";
 import { postLogin } from "@/services/api/postLogin";
 import { Logo } from "@/assets/images";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -38,8 +39,9 @@ export default function LoginPage() {
 
   return (
     <div className="relative min-h-screen flex justify-center items-center overflow-hidden">
-      <div className="z-10 w-[420px] h-[520px] flex flex-col gap-16 justify-center items-center m-auto py-32 rounded-3xl shadow-lg bg-white bg-opacity-60">
+      <div className="z-10 w-[420px] h-[520px] flex flex-col gap-12 justify-center items-center m-auto py-32 rounded-3xl shadow-lg bg-white bg-opacity-60">
         <Image src={Logo} alt="logo" width={300} height={200} />
+
         <form className="flex flex-col justify-center w-80" onSubmit={handleSubmit}>
           <div className="mb-2">
             <label>이메일</label>
@@ -65,6 +67,8 @@ export default function LoginPage() {
             로그인
           </Button>
         </form>
+
+        <Link href="/signup">계정이 없으신가요?</Link>
       </div>
     </div>
   );
