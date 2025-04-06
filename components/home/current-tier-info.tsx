@@ -13,7 +13,8 @@ import { judgeTier, judgeTierImageAssets } from "@/util/tier";
 const CurrentTierInfo = () => {
   const [expTier, setExpTierAtom] = useAtom(expTierAtom);
   const [stats] = useAtom(statAtom);
-  const { data, isLoading, isError, error } = useQuery({
+  // const { data, isLoading, isError, error } = useQuery({
+  const { data } = useQuery({
     queryKey: ['exp'],
     queryFn: getQuestTier,
   });
@@ -28,8 +29,8 @@ const CurrentTierInfo = () => {
     }
   }, [data, setExpTierAtom]);
 
-  if (isLoading) return <div>현재 티어 불러오는 중...</div>;
-  if (isError) return <div>에러 발생: {error.message}</div>;
+  // if (isLoading) return <div>현재 티어 불러오는 중...</div>;
+  // if (isError) return <div>에러 발생: {error.message}</div>;
 
   return (
     <Card className="static min-w-[40%]">

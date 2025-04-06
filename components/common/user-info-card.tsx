@@ -7,13 +7,14 @@ import { useQuery } from '@tanstack/react-query';
 import { getUserProfile } from '@/services/api/getUserProfile';
 
 const UserInfoCard = () => {
-  const { data, isLoading, isError, error } = useQuery({
+  // const { data, isLoading, isError, error } = useQuery({
+  const { data } = useQuery({
     queryKey: ['userInfo'],
     queryFn: getUserProfile,
   });
 
-  if (isLoading) return <div>사용자 정보 불러오는 중...</div>;
-  if (isError) return <div>에러 발생: {error.message}</div>;
+  // if (isLoading) return <div>사용자 정보 불러오는 중...</div>;
+  // if (isError) return <div>에러 발생: {error.message}</div>;
 
   const userInfo = data?.data;
 
