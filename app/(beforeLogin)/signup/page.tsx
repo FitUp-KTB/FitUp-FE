@@ -6,17 +6,19 @@ import {Button} from "@/components/ui/button";
 import {Logo, ChevronBack} from "@/assets/images";
 import Image from "next/image";
 import {useRouter} from "next/navigation";
+import {postSignup} from "@/services/api/postSignup";
+import {SignupRequest} from "@/dto/signupDTO";
 
 export default function SignupPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [gender, setGender] = useState<"male" | "female" | null>(null);
+  const [gender, setGender] = useState<"MALE" | "FEMALE" | null>(null);
   const [genderError, setGenderError] = useState(false);
 
   const router = useRouter();
 
-  const handleSetGender = (gender: "male" | "female") => {
+  const handleSetGender = (gender: "MALE" | "FEMALE") => {
     setGenderError(false);
     setGender(gender)
   }
@@ -31,7 +33,24 @@ export default function SignupPage() {
     setGenderError(false);
 
     // 회원가입 API 호출
-    console.log({ name, email, password, gender });
+    try {
+      const reqBody: SignupRequest = {email: email, password: password, gender: gender, name: name};
+      const response = await postSignup(reqBody)
+
+      if (!response.success) {
+        alert("회원가입 실패!")
+        return;
+      }
+
+      // 쿠키에 token 저장
+      document.cookie = `token=${response.data.accessToken}; path=/; secure; SameSite=Strict;`;
+
+      router.push("/home");
+    } catch (error) {
+      console.error(error);
+    }
+
+
   }
 
   return (
@@ -80,10 +99,10 @@ export default function SignupPage() {
           <div className="flex gap-4 mb-1 justify-center align-middle">
             <Button
               type="button"
-              onClick={() => handleSetGender("male")}
+              onClick={() => handleSetGender("MALE")}
               className={
                 `px-6 py-3 rounded-full border transition font-medium text-gray-700 hover:bg-WHITE
-              ${gender === "male"
+              ${gender === "MALE"
                   ? "bg-WHITE border-black"
                   : "bg-transparent border-gray-300"}
               `}
@@ -92,10 +111,10 @@ export default function SignupPage() {
             </Button>
             <Button
               type="button"
-              onClick={() => handleSetGender("female")}
+              onClick={() => handleSetGender("FEMALE")}
               className={
                 `px-6 py-3 rounded-full border transition font-medium text-gray-700 hover:bg-WHITE
-                ${gender === "female"
+                ${gender === "FEMALE"
                   ? "bg-WHITE border-black"
                   : "bg-transparent border-gray-300 "}
               `}
@@ -107,7 +126,7 @@ export default function SignupPage() {
             <p className={`text-red-500 text-sm text-center ${genderError ? "opacity-100" : "opacity-0"}`}>성별을 선택해주세요.</p>
 
           <Button type="submit" className="mt-4 w-full h-10">
-            다음
+            회원가입
           </Button>
 
         </form>
