@@ -41,7 +41,8 @@ export default function LoginPage() {
       }
 
       // 쿠키에 token 저장
-      document.cookie = `token=${response.data.accessToken}; path=/; secure; SameSite=Strict;`;
+      document.cookie = `accessToken=${response.data.accessToken}; refreshToken=${response.data.refreshToken}; path=/; secure; SameSite=Strict;`;
+      document.cookie = `refreshToken=${response.data.refreshToken}; path=/; secure; SameSite=Strict;`;
 
       router.push("/home")
     } catch (error) {
