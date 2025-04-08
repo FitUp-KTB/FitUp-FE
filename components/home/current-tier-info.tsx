@@ -33,7 +33,7 @@ const CurrentTierInfo = () => {
   // if (isError) return <div>에러 발생: {error.message}</div>;
 
   return (
-    <Card className="static min-w-[40%]">
+    <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           프로필
@@ -66,8 +66,6 @@ const CurrentTierInfo = () => {
             </div>
             <div className="text-center text-gray-400 pt-2 text-[10px]">* 운동 유형을 결정짓는 주요 스탯입니다.</div>
           </div>
-
-
         </div>
       </CardContent>
     </Card>

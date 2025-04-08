@@ -125,7 +125,7 @@ export default function StatChangesChart() {
   }, []);
 
   return (
-    <Card className="flex-1 min-w-[45%] flex flex-col">
+    <Card>
       <CardHeader>
         <CardTitle>
           능력치 변화

@@ -55,7 +55,7 @@ const NextTierInfo = () => {
   }, [expTier.currentExp]); // 의존성 배열: currentExp가 변경될 때만 재계산
 
   return (
-    <Card className="w-[28%]">
+    <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           다음 달 예정 티어

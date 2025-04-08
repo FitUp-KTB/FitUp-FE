@@ -66,7 +66,7 @@ export default function StatRadarChart() {
 
 
   return (
-    <Card className="w-[28.5%]">
+    <Card>
       <CardHeader>
         <CardTitle>
           능력치
@@ -74,7 +74,7 @@ export default function StatRadarChart() {
       </CardHeader>
       <CardContent>
         {/* 차트를 감싸는 div에 명시적 높이 지정 */}
-        <div className="h-80 w-full">  {/* 높이를 h-80(20rem)으로 설정 */}
+        <div className="h-full w-[300px]">
           <Radar data={chartData} options={options} />
         </div>
       </CardContent>
