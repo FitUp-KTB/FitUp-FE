@@ -52,23 +52,32 @@ jobs:
     environment: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
 
     steps:
-      - name: Deploy to Remote Server via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            if [ "${GITHUB_REF##*/}" == "main" ]; then
-              IMAGE_NAME=${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest
-              CONTAINER_NAME=frontend
-            else
-              IMAGE_NAME=${{ secrets.DOCKER_HUB_USERNAME }}/frontend-dev:latest
-              CONTAINER_NAME=frontend-dev
-            fi
+      - name: Deploy via Jump Server
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_JUMP_KEY }}" > ~/.ssh/jump_key
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/private_vm_key
+          chmod 600 ~/.ssh/jump_key ~/.ssh/private_vm_key
+
+          if [[ "${GITHUB_REF##*/}" == "main" ]]; then
+            IMAGE_NAME="${{ secrets.DOCKER_HUB_USERNAME }}/frontend"
+            CONTAINER_NAME="fitup-frontend"
+          else
+            IMAGE_NAME="${{ secrets.DOCKER_HUB_USERNAME }}/frontend-dev"
+            CONTAINER_NAME="fitup-frontend-dev"
+          fi
+
+          ssh \
+            -o StrictHostKeyChecking=no \
+            -o UserKnownHostsFile=/dev/null \
+            -o ProxyCommand="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/jump_key -W %h:%p ${{ secrets.SSH_JUMP_USER }}@${{ secrets.SSH_JUMP_HOST }}" \
+            -i ~/.ssh/private_vm_key \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
+
+            set -e
 
             docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" -p "${{ secrets.DOCKER_HUB_PASSWORD }}"
-            docker pull $IMAGE_NAME
+            docker pull $IMAGE_NAME:latest
 
             docker stop $CONTAINER_NAME || true
             docker rm $CONTAINER_NAME || true
@@ -77,4 +86,7 @@ jobs:
               --name $CONTAINER_NAME \
               -p 3000:3000 \
               --restart unless-stopped \
-              $IMAGE_NAME
+              $IMAGE_NAME:latest
+
+            docker image prune -af
+          EOF
