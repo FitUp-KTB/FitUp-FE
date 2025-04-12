@@ -23,4 +23,12 @@ interface UserProfileResponse {
   muscleMass: number;
 }
 
-export type { ApiResponse, UserProfileResponse };
+interface UserAdditionalProfileRequest {
+  birthDate: string;
+  currentState: string;
+  targetState: string;
+  goal: string;
+  chronic: string;
+}
+
+export type { ApiResponse, UserProfileResponse, UserAdditionalProfileRequest };

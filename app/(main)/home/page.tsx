@@ -1,6 +1,6 @@
 import StatRadarChart from "@/components/home/statRadarChart";
 import QuestList from "@/components/home/questList";
-import { Calendar } from "@/components/ui/calendar";
+import { QuestCalendar } from "@/components/home/questCalendar";
 import StatChangesChart from "@/components/home/stat-changes-chart";
 import NextTierInfo from "@/components/home/next-tier-info";
 import CurrentTierInfo from "@/components/home/current-tier-info";
@@ -18,7 +18,7 @@ export default function HomePage() {
 
       <div className="w-full flex flex-wrap gap-6">
         <StatChangesChart />
-        <Calendar />
+        <QuestCalendar />
         <QuestList />
         <UserInfoCard />
       </div>
