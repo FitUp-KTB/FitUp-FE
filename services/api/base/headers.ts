@@ -6,7 +6,8 @@ const jsonHeader = {
 
 const jsonHeaderWithToken = {
   "content-type": "application/json",
-  "Authorization": `Bearer ${getCookie("token")}`,
+  "Authorization": `Bearer ${getCookie("accessToken")}`,
+  "refreshToken": `${getCookie("refreshToken")}`,
 }
 
-export {jsonHeader, jsonHeaderWithToken};
+export { jsonHeader, jsonHeaderWithToken };

@@ -81,15 +81,15 @@ const UserInfoCard = () => {
           <ul className="text-sm text-gray-700 space-y-2">
             <li className="flex items-center">
               <span className="w-2 h-2 bg-[#ABDEE6] rounded-full mr-2 flex-shrink-0"></span>
-              <span className="font-medium">팔굽혀펴기:</span> {userInfo?.pushUps || '-'}회
+              <span className="font-medium">팔굽혀펴기:</span> {userInfo?.pushUps || ' -'} 회
             </li>
             <li className="flex items-center">
               <span className="w-2 h-2 bg-[#ABDEE6] rounded-full mr-2 flex-shrink-0"></span>
-              <span className="font-medium">윗몸일으키기:</span> {userInfo?.sitUps || '-'}회
+              <span className="font-medium">윗몸일으키기:</span> {userInfo?.sitUps || ' -'} 회
             </li>
             <li className="flex items-center">
               <span className="w-2 h-2 bg-[#ABDEE6] rounded-full mr-2 flex-shrink-0"></span>
-              <span className="font-medium">벤치프레스:</span> {userInfo?.benchPress ? `${userInfo.benchPress}kg` : '-'}
+              <span className="font-medium">벤치프레스:</span> {userInfo?.benchPress ? `${userInfo.benchPress}kg` : ' - kg'}
             </li>
           </ul>
         </div>
