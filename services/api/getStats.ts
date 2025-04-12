@@ -5,7 +5,7 @@ import { jsonHeaderWithToken } from "@/services/api/base/headers";
 const getStats = async (): Promise<BaseResponse<StatListResponse>> => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/stats`, {
     method: "GET",
-    headers: jsonHeaderWithToken,
+    headers: jsonHeaderWithToken(),
   });
 
   return await response.json();

@@ -5,7 +5,7 @@ export const getQuestTier = async (): Promise<QuestTierResponse> => {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/quests/tier`, {
       method: "GET",
-      headers: jsonHeaderWithToken,
+      headers: jsonHeaderWithToken(),
     });
     if (!response.ok) {
       throw new Error("");

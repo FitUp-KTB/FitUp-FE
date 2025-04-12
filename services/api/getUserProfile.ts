@@ -5,7 +5,7 @@ import { UserProfileResponse } from "@/dto/userProfileDTO";
 const getUserProfile = async (): Promise<BaseResponse<UserProfileResponse>> => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users`, {
     method: "GET",
-    headers: jsonHeaderWithToken,
+    headers: jsonHeaderWithToken(),
   });
 
   return await response.json();
