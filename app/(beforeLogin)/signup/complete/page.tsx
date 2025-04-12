@@ -61,9 +61,9 @@ export default function SignupCompletePage() {
             </h2>
           </div>
 
-          <form className="w-full max-w-3xl flex flex-col gap-8" onSubmit={handleSubmit}>
+          <form className="w-full max-w-3xl flex flex-col gap-8 pl-14 pr-14" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-              <div className="flex flex-col gap-2 ml-14">
+              <div className="flex flex-col gap-2">
                 <label className="text-sm font-medium text-gray-700">생년월일</label>
                 <div className="border shadow-sm rounded-md p-2 w-fit">
                   <DropdownCalendar
@@ -109,7 +109,7 @@ export default function SignupCompletePage() {
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1 mb-4">
                   <label className="text-sm font-medium text-gray-700">만성질환이 있으신가요?</label>
                   <Input
                     value={chronic}
