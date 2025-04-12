@@ -23,7 +23,6 @@ const CurrentTierInfo = () => {
     if (data) {
       const tier = judgeTier(data.previousExp);
 
-      console.log(data);
       const updatedData = { ...data, tier };
       setExpTierAtom(updatedData);
     }

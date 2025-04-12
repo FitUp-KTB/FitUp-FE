@@ -8,32 +8,29 @@ import UserInfoCard from "@/components/common/user-info-card";
 
 export default function HomePage() {
   return (
-    <div className="container mx-auto px-4 py-6">
+    <div className="">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-        {/* 첫 번째 행 - 높이 414px */}
-        <div className="md:col-span-4 lg:col-span-4 h-[414px]">
+        <div className="md:col-span-5">
           <CurrentTierInfo />
         </div>
-        <div className="md:col-span-4 lg:col-span-4 h-[414px]">
+        <div className="md:col-span-4">
           <StatRadarChart />
         </div>
-        <div className="md:col-span-4 lg:col-span-4 h-[414px]">
+        <div className="md:col-span-3">
           <NextTierInfo />
         </div>
 
-        {/* 두 번째 행 - 높이 540px */}
-        <div className="md:col-span-6 lg:col-span-6 h-[540px]">
+        <div className="md:col-span-8">
           <StatChangesChart />
         </div>
-        <div className="md:col-span-3 lg:col-span-3 h-[540px]">
+        <div className="md:col-span-4">
           <Calendar />
         </div>
-        <div className="md:col-span-3 lg:col-span-3 h-[540px]">
+
+        <div className="md:col-span-4">
           <QuestList />
         </div>
-
-        {/* 세 번째 행 - 높이 282px */}
-        <div className="col-span-1 md:col-span-12 h-[282px]">
+        <div className="md:col-span-8">
           <UserInfoCard />
         </div>
       </div>

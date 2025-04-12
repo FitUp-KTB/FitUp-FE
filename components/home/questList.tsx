@@ -94,8 +94,8 @@ export default function QuestList() {
           오늘의 퀘스트
         </CardTitle>
       </CardHeader>
-      <CardContent className="w-96 h-[480px] flex flex-col gap-4">
-        {todayQuestExist && (
+      <CardContent className="flex flex-col gap-4">
+        {todayQuestExist ?
           <div className="gap-2 flex flex-col">
             <div>
               <h4 className="text-lg font-semibold">일상</h4>
@@ -117,14 +117,12 @@ export default function QuestList() {
 
             <Button onClick={handleGoToPrompt} className="rounded-2xl bg-BLUE">퀘스트 편집하러 가기</Button>
           </div>
-        )}
-
-        {!todayQuestExist && (
+          :
           <div className="flex flex-col flex-1 justify-center items-center">
             <h2 className="text-lg font-bold text-gray-800">오늘의 퀘스트가 없습니다!</h2>
             <Button onClick={handleGoToPrompt}>퀘스트 생성하러 가기</Button>
           </div>
-        )}
+        }
       </CardContent>
     </Card>
   );

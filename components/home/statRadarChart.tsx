@@ -13,7 +13,7 @@ Chart.register(RadialLinearScale, PointElement, LineElement, ChartDataLabels, Fi
 
 const options = {
   responsive: true,
-  maintainAspectRatio: false,  // 이 설정 유지
+  maintainAspectRatio: true,
   scales: {
     r: {
       angleLines: { display: true },
@@ -72,11 +72,8 @@ export default function StatRadarChart() {
           능력치
         </CardTitle>
       </CardHeader>
-      <CardContent>
-        {/* 차트를 감싸는 div에 명시적 높이 지정 */}
-        <div className="h-full w-[300px]">
-          <Radar data={chartData} options={options} />
-        </div>
+      <CardContent className="flex justify-center items-center">
+        <Radar className="w-50" data={chartData} options={options} />
       </CardContent>
     </Card>
   );

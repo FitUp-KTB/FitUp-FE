@@ -10,6 +10,7 @@ export const getQuestTier = async (): Promise<QuestTierResponse> => {
     if (!response.ok) {
       throw new Error("");
     }
+
     const result = await response.json();
     return result.data
   } catch (error) {
