@@ -139,46 +139,46 @@ function Calendar({
   }, []);
 
   return (
-    <Card>
+    <Card className="w-full h-full flex flex-col">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           월별 퀘스트 진행도
         </CardTitle>
       </CardHeader>
 
-      <CardContent className="flex justify-center">
-        <div className="inline-block">
+      <CardContent className="flex-1 flex flex-col items-center justify-center px-2 sm:px-4">
+        <div className="w-full max-w-md mx-auto">
           <DayPicker
             showOutsideDays={showOutsideDays}
-            className={cn("inline-block p-3 rounded-xl bg-white", className)}
+            className={cn("w-full p-1 sm:p-3 rounded-xl bg-white", className)}
             modifiers={modifiers}
             modifiersStyles={modifiersStyles}
             classNames={{
-              months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
-              month: "space-y-4",
+              months: "flex flex-col w-full space-y-4",
+              month: "w-full space-y-2 sm:space-y-4",
               caption: "flex justify-center pt-1 relative items-center",
-              caption_label: "text-sm font-medium",
+              caption_label: "text-xs sm:text-sm font-medium",
               nav: "space-x-1 flex items-center",
               nav_button: cn(
                 buttonVariants({ variant: "outline" }),
-                "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
+                "h-6 w-6 sm:h-7 sm:w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
               ),
               nav_button_previous: "absolute left-1",
               nav_button_next: "absolute right-1",
               table: "w-full border-collapse space-y-1",
-              head_row: "flex px-1 space-x-2",
+              head_row: "flex w-full px-1 gap-1 sm:gap-2",
               head_cell:
-                "text-muted-foreground rounded-md w-full font-normal text-[0.8rem]",
-              row: "flex w-full mt-2",
+                "text-muted-foreground rounded-md flex-1 font-normal text-[0.6rem] sm:text-[0.8rem]",
+              row: "flex w-full mt-1 sm:mt-2 gap-1 sm:gap-2",
               cell: cn(
-                "relative p-0 m-1 rounded-md text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected].day-range-end)]:rounded-r-md",
+                "relative p-0 flex-1 h-8 sm:h-10 md:h-12 rounded-md text-center text-xs sm:text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected].day-range-end)]:rounded-r-md",
                 props.mode === "range"
                   ? "[&:has(>.day-range-end)]:rounded-r-md [&:has(>.day-range-start)]:rounded-l-md first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md"
                   : "[&:has([aria-selected])]:rounded-md"
               ),
               day: cn(
                 buttonVariants({ variant: "ghost" }),
-                "h-12 w-12 p-0 font-normal aria-selected:opacity-100"
+                "h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 p-0 text-xs sm:text-sm font-normal aria-selected:opacity-100"
               ),
               day_range_start: "day-range-start",
               day_range_end: "day-range-end",
@@ -195,25 +195,25 @@ function Calendar({
             }}
             components={{
               IconLeft: ({ className, ...props }) => (
-                <ChevronLeft className={cn("h-8 w-8", className)} {...props} />
+                <ChevronLeft className={cn("h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6", className)} {...props} />
               ),
               IconRight: ({ className, ...props }) => (
-                <ChevronRight className={cn("h-8 w-8", className)} {...props} />
+                <ChevronRight className={cn("h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6", className)} {...props} />
               ),
             }}
             {...props}
           />
-          <div className="mt-2 grid grid-cols-3 gap-4 text-md">
+          <div className="mt-2 grid grid-cols-3 gap-2 text-xs sm:text-sm md:text-md">
             <div className="flex items-center justify-center">
-              <div className="w-2.5 h-2.5 rounded-full bg-gray-400 bg-opacity-20 mr-2"></div>
+              <div className="w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 rounded-full bg-gray-400 bg-opacity-20 mr-1 sm:mr-2"></div>
               <span>1개</span>
             </div>
             <div className="flex items-center justify-center">
-              <div className="w-2.5 h-2.5 rounded-full bg-yellow-500 bg-opacity-20 mr-2"></div>
+              <div className="w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 rounded-full bg-yellow-500 bg-opacity-20 mr-1 sm:mr-2"></div>
               <span>2개</span>
             </div>
             <div className="flex items-center justify-center">
-              <div className="w-2.5 h-2.5 rounded-full bg-blue-500 bg-opacity-20 mr-2"></div>
+              <div className="w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 rounded-full bg-blue-500 bg-opacity-20 mr-1 sm:mr-2"></div>
               <span>3개 이상</span>
             </div>
           </div>
