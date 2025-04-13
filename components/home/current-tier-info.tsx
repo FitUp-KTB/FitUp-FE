@@ -30,7 +30,7 @@ const CurrentTierInfo = () => {
   if (isError) return <div>에러 발생: {error.message}</div>;
 
   return (
-    <Card className="flex-grow md:min-w-[40%] w-full">
+    <Card className="flex-grow w-full">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           프로필
