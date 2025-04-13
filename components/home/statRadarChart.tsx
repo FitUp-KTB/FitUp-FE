@@ -73,7 +73,7 @@ export default function StatRadarChart() {
         </CardTitle>
       </CardHeader>
       <CardContent className="flex justify-center items-center">
-        <Radar className="md:max-h-[414px]" data={chartData} options={options} />
+        <Radar className="md:max-h-[354px]" data={chartData} options={options} />
       </CardContent>
     </Card>
   );
