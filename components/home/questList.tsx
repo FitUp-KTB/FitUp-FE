@@ -88,13 +88,13 @@ export default function QuestList() {
 
   return (
 
-    <Card>
+    <Card className="h-full flex flex-col">
       <CardHeader>
         <CardTitle>
           오늘의 퀘스트
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col gap-4">
+      <CardContent className="flex-1 flex flex-col">
         {todayQuestExist ?
           <div className="gap-2 flex flex-col">
             <div>
