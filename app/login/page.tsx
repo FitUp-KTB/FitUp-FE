@@ -67,30 +67,39 @@ export default function LoginPage() {
         ))}
       </div>
 
-      <div className="z-10 w-[420px] h-[520px] flex flex-col gap-16 justify-center items-center m-auto py-32 rounded-3xl shadow-lg bg-white bg-opacity-60">
-        <Image src={Logo} alt="logo" width={300} height={200} />
-        <form className="flex flex-col justify-center w-80" onSubmit={handleSubmit}>
+      <div className="z-10 w-[90%] sm:w-[420px] h-auto min-h-[420px] flex flex-col gap-8 sm:gap-16 justify-center items-center m-auto p-6 sm:py-20 rounded-3xl shadow-lg bg-white bg-opacity-60">
+        <div className="w-[80%] sm:w-[300px]">
+          <Image
+            src={Logo}
+            alt="logo"
+            width={300}
+            height={200}
+            className="w-full h-auto"
+          />
+        </div>
+
+        <form className="flex flex-col justify-center w-full sm:w-80" onSubmit={handleSubmit}>
           <div className="mb-2">
-            <label>이메일</label>
+            <label className="block mb-1 text-sm sm:text-base">이메일</label>
             <Input
               type="email"
               value={email}
-              className="border-gray-400"
+              className="border-gray-400 h-10 text-sm sm:text-base"
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
           <div className="mb-4">
-            <label>비밀번호</label>
+            <label className="block mb-1 text-sm sm:text-base">비밀번호</label>
             <Input
               type="password"
               value={password}
-              className="border-gray-400"
+              className="border-gray-400 h-10 text-sm sm:text-base"
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
-          <Button type="submit" className="mt-4 w-full h-10">
+          <Button type="submit" className="mt-4 w-full h-10 sm:h-12 text-sm sm:text-base">
             로그인
           </Button>
         </form>
