@@ -10,9 +10,9 @@ import { useSetAtom } from "jotai";
 import { recentQuestOverviewAtom } from "@/store/recentQuestOverviewAtom";
 import { getQuestOverviews } from "@/services/api/getQuestOverviews";
 import { useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "./card"
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
 
-type CalendarProps = React.ComponentProps<typeof DayPicker> & {
+type QuestCalendarProps = React.ComponentProps<typeof DayPicker> & {
   coloredDates?: {
     gray?: Date[];
     yellow?: Date[];
@@ -20,12 +20,12 @@ type CalendarProps = React.ComponentProps<typeof DayPicker> & {
   }
 }
 
-function Calendar({
+function QuestCalendar({
   className,
   classNames,
   showOutsideDays = true,
   ...props
-}: CalendarProps) {
+}: QuestCalendarProps) {
   // 달력 데이터 상태 관리
   const [coloredDates, setColoredDates] = React.useState<{
     gray: Date[];
@@ -222,6 +222,6 @@ function Calendar({
     </Card>
   )
 }
-Calendar.displayName = "Calendar"
+QuestCalendar.displayName = "Calendar"
 
-export { Calendar }
+export { QuestCalendar }
